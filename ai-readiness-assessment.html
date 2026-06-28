@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Is Your Team AI Ready? Free Assessment | AI Workflow Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#1A9E8F;--teal2:#0D7A6E;--turq:#3DD6C4;--turq-lt:#E0FAF7;--mustard:#F5C842;--must-lt:#FFFAE6;--must-dk:#8a6c00;--coral:#FF7858;--coral-dk:#C84535;--coral-lt:#FFF0EC;--dark:#1C2B2A;--mid:#4A6360;--muted:#7A9490;--light:#F8FEFE;--border:#D4EDEA;--white:#FFFFFF}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--dark);background:var(--light);font-size:16px;line-height:1.65}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;line-height:1.15}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--border);padding:0 6%;display:flex;align-items:center;justify-content:space-between;height:66px}
+.nav-logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.15rem;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:8px}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:var(--mustard);display:inline-block}
+.nav-back{font-size:.88rem;color:var(--mid);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.nav-back:hover{color:var(--teal)}
+
+/* HERO */
+.hero{background:var(--white);padding:60px 6% 50px;border-bottom:1.5px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(29,158,143,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(29,158,143,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:720px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--must-lt);border:1.5px solid var(--mustard);color:var(--must-dk);font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.4rem 1rem;border-radius:50px;margin-bottom:1.2rem}
+.hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--dark);margin-bottom:.8rem}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{color:var(--mid);font-size:1.05rem;line-height:1.75;max-width:600px;margin-bottom:1.5rem}
+.hero-pills{display:flex;gap:.7rem;flex-wrap:wrap}
+.pill{background:var(--turq-lt);border:1.5px solid var(--turq);color:var(--teal2);font-size:.78rem;font-weight:700;padding:.35rem .9rem;border-radius:50px}
+
+/* PROGRESS BAR */
+.progress-wrap{background:var(--white);border-bottom:1.5px solid var(--border);padding:16px 6%;position:sticky;top:66px;z-index:90}
+.progress-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.progress-label span{font-size:.82rem;font-weight:600;color:var(--mid)}
+.progress-label strong{font-size:.82rem;font-weight:700;color:var(--teal)}
+.progress-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--turq));border-radius:4px;transition:width .4s ease;width:0%}
+
+/* ASSESSMENT CONTAINER */
+.assessment{max-width:780px;margin:0 auto;padding:40px 6% 80px}
+
+/* SECTION HEADER */
+.section-header{border-radius:16px;padding:1.4rem 1.8rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.section-icon{font-size:1.8rem;flex-shrink:0}
+.section-header h2{font-size:1.1rem;font-weight:800;color:var(--white)}
+.section-header p{font-size:.85rem;color:rgba(255,255,255,.8);margin-top:.2rem}
+
+/* QUESTION CARD */
+.q-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:1.6rem;margin-bottom:1.2rem;transition:border-color .2s,box-shadow .2s}
+.q-card.answered{border-color:var(--teal);box-shadow:0 4px 16px rgba(29,158,143,.08)}
+.q-num{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--coral);margin-bottom:.5rem}
+.q-text{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:1rem;line-height:1.4}
+.options{display:flex;flex-direction:column;gap:.5rem}
+.option{display:flex;align-items:flex-start;gap:.9rem;padding:.85rem 1rem;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--white)}
+.option:hover{border-color:var(--teal);background:var(--turq-lt)}
+.option.selected{border-color:var(--teal);background:var(--turq-lt)}
+.option.selected .opt-radio{background:var(--teal);border-color:var(--teal)}
+.option.selected .opt-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:white;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.opt-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:2px;position:relative;transition:all .2s}
+.opt-label{font-size:.78rem;font-weight:700;color:var(--teal);flex-shrink:0;margin-top:2px;width:16px}
+.opt-text{font-size:.9rem;color:var(--mid);line-height:1.45}
+.option.selected .opt-text{color:var(--dark)}
+
+/* NAVIGATION */
+.nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1.5px solid var(--border)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border-radius:50px;font-weight:700;font-size:.95rem;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;border:none;transition:all .2s}
+.btn-prev{background:var(--white);color:var(--mid);border:2px solid var(--border)}
+.btn-prev:hover{border-color:var(--teal);color:var(--teal)}
+.btn-next{background:var(--teal);color:white;box-shadow:0 4px 0 var(--teal2)}
+.btn-next:hover{background:var(--teal2);transform:translateY(-1px)}
+.btn-next:disabled{background:var(--border);color:var(--muted);box-shadow:none;cursor:not-allowed;transform:none}
+.btn-submit{background:var(--coral);color:white;box-shadow:0 4px 0 var(--coral-dk)}
+.btn-submit:hover{background:var(--coral-dk);transform:translateY(-1px)}
+
+/* EMAIL CAPTURE */
+.email-section{background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:2.5rem;margin-bottom:1.5rem}
+.email-section h2{font-size:1.4rem;font-weight:800;color:var(--dark);margin-bottom:.5rem}
+.email-section p{font-size:.93rem;color:var(--mid);line-height:1.7;margin-bottom:1.5rem}
+.form-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
+.form-group label{font-size:.82rem;font-weight:600;color:var(--dark)}
+.form-group input,.form-group select{padding:.85rem 1rem;border:1.5px solid var(--border);border-radius:10px;font-size:.95rem;font-family:'Inter',sans-serif;color:var(--dark);outline:none;transition:border-color .2s;background:var(--white)}
+.form-group input:focus,.form-group select:focus{border-color:var(--teal)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.consent{display:flex;gap:.8rem;align-items:flex-start;padding:1rem;background:var(--light);border-radius:10px;margin-bottom:1.2rem}
+.consent input[type=checkbox]{width:18px;height:18px;flex-shrink:0;margin-top:2px;accent-color:var(--teal);cursor:pointer}
+.consent label{font-size:.83rem;color:var(--mid);line-height:1.5;cursor:pointer}
+.consent a{color:var(--teal)}
+
+/* RESULTS */
+.results-wrap{display:none}
+.score-hero{background:var(--teal);border-radius:20px;padding:2.5rem;text-align:center;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.score-hero::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.06);top:-60px;right:-60px}
+.score-hero::after{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(245,200,66,.1);bottom:-40px;left:-40px}
+.score-number{font-family:'Bricolage Grotesque',sans-serif;font-size:5rem;font-weight:800;color:var(--mustard);line-height:1;display:block;position:relative;z-index:1}
+.score-denom{font-size:1.5rem;color:rgba(255,255,255,.5)}
+.score-label{font-family:'Bricolage Grotesque',sans-serif;font-size:1.4rem;font-weight:800;color:white;margin:.5rem 0 .3rem;position:relative;z-index:1}
+.score-sub{font-size:.9rem;color:rgba(255,255,255,.75);position:relative;z-index:1}
+
+.section-scores{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.section-score-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:1.2rem}
+.section-score-card h4{font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:.5rem}
+.score-bar-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:.4rem}
+.score-bar-fill{height:100%;border-radius:4px;transition:width .8s ease}
+.score-bar-label{font-size:.78rem;color:var(--muted)}
+
+.result-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:1.8rem;margin-bottom:1rem}
+.result-card h3{font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:.6rem;display:flex;align-items:center;gap:.6rem}
+.result-card p{font-size:.92rem;color:var(--mid);line-height:1.7}
+.next-step-box{background:var(--coral-lt);border:1.5px solid var(--coral);border-radius:16px;padding:1.8rem;margin-bottom:1.5rem}
+.next-step-box h3{font-size:1rem;font-weight:800;color:var(--coral-dk);margin-bottom:.5rem}
+.next-step-box p{font-size:.92rem;color:var(--dark);line-height:1.7}
+.cta-strip{background:var(--dark);border-radius:16px;padding:2rem;text-align:center}
+.cta-strip h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-weight:800;color:white;margin-bottom:.5rem}
+.cta-strip p{color:rgba(255,255,255,.65);font-size:.92rem;margin-bottom:1.5rem}
+.btn-coral-solid{display:inline-block;background:var(--coral);color:white;text-decoration:none;padding:.85rem 2rem;border-radius:50px;font-weight:700;font-family:'Bricolage Grotesque',sans-serif;font-size:.95rem;box-shadow:0 4px 0 var(--coral-dk);transition:all .2s}
+.btn-coral-solid:hover{background:var(--coral-dk);transform:translateY(-1px)}
+
+/* FOOTER */
+footer{background:var(--dark);padding:32px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-top:2px solid var(--teal)}
+.footer-brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;color:white;display:flex;align-items:center;gap:6px}
+.footer-fdot{width:8px;height:8px;border-radius:50%;background:var(--mustard)}
+footer p{color:rgba(255,255,255,.3);font-size:.8rem}
+footer a{color:var(--turq);font-size:.8rem;text-decoration:none}
+
+@media(max-width:600px){
+  .form-row{grid-template-columns:1fr}
+  .section-scores{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+
+<!-- Hidden Netlify form for bot detection and form registration -->
+<form name="ai-readiness-assessment" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="first-name">
+  <input type="text" name="last-name">
+  <input type="email" name="email">
+  <input type="text" name="organisation">
+  <input type="text" name="role">
+  <input type="text" name="team-size">
+  <input type="text" name="total-score">
+  <input type="text" name="score-band">
+  <input type="text" name="section-1-score">
+  <input type="text" name="section-2-score">
+  <input type="text" name="section-3-score">
+  <input type="text" name="section-4-score">
+  <input type="text" name="answers">
+  <input type="text" name="bot-field">
+</form>
+
+<nav>
+  <a href="https://www.theaiworkflowlab.com/index.html" class="nav-logo"><span class="nav-dot"></span> AI Workflow Lab</a>
+  <a href="https://www.theaiworkflowlab.com/team-training.html" class="nav-back">← Back to Team Training</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="hero-badge">✦ Free Assessment - Takes 5 Minutes</span>
+    <h1>Is Your Team <em>AI Ready?</em></h1>
+    <p>12 questions across four areas. Get your score, see where the gaps are, and find out exactly what to do next - completely free, no obligation.</p>
+    <div class="hero-pills">
+      <span class="pill">12 questions</span>
+      <span class="pill">4 sections</span>
+      <span class="pill">Instant results</span>
+      <span class="pill">Personalised recommendations</span>
+    </div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span id="progress-text">Question 1 of 12</span>
+    <strong id="progress-pct">0% complete</strong>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<div class="assessment" id="assessment-container">
+
+  <!-- SECTION 1 -->
+  <div class="section-step" data-section="0">
+    <div class="section-header" style="background:var(--teal)">
+      <div class="section-icon">🎯</div>
+      <div>
+        <h2>Section 1: Awareness and Understanding</h2>
+        <p>Questions 1 to 3 - how well does your team understand AI and Copilot?</p>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="0">
+      <div class="q-num">Question 1 of 12</div>
+      <div class="q-text">Do most people in your team know what Microsoft Copilot is?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,0,0,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">No - most have not heard of it</span></div>
+        <div class="option" onclick="selectOption(this,0,0,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">Some have heard of it but do not know what it does</span></div>
+        <div class="option" onclick="selectOption(this,0,0,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Most know what it is but have not used it</span></div>
+        <div class="option" onclick="selectOption(this,0,0,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">Most are familiar and have tried it</span></div>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="1">
+      <div class="q-num">Question 2 of 12</div>
+      <div class="q-text">Does your team understand the difference between free Copilot and paid Microsoft 365 Copilot?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,0,1,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">No - we are not sure what the difference is</span></div>
+        <div class="option" onclick="selectOption(this,0,1,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">A few people know but most do not</span></div>
+        <div class="option" onclick="selectOption(this,0,1,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Most have a rough idea</span></div>
+        <div class="option" onclick="selectOption(this,0,1,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">Yes - we understand the licence options clearly</span></div>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="2">
+      <div class="q-num">Question 3 of 12</div>
+      <div class="q-text">Are staff aware of what Copilot can and cannot do?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,0,2,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">No - most assume it can do anything or are not sure</span></div>
+        <div class="option" onclick="selectOption(this,0,2,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">There is a lot of confusion about its limits</span></div>
+        <div class="option" onclick="selectOption(this,0,2,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Some people understand it reasonably well</span></div>
+        <div class="option" onclick="selectOption(this,0,2,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">Most staff have a realistic picture of its capabilities</span></div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <span></span>
+      <button class="btn btn-next" onclick="nextSection(0)" id="next-0">Next Section →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-step" data-section="1" style="display:none">
+    <div class="section-header" style="background:var(--coral)">
+      <div class="section-icon">🚀</div>
+      <div>
+        <h2>Section 2: Adoption and Usage</h2>
+        <p>Questions 4 to 6 - how widely is Copilot actually being used?</p>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="3">
+      <div class="q-num">Question 4 of 12</div>
+      <div class="q-text">How widely is Copilot currently being used in your organisation?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,1,0,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">We have not started yet</span></div>
+        <div class="option" onclick="selectOption(this,1,0,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">A handful of early adopters only</span></div>
+        <div class="option" onclick="selectOption(this,1,0,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Several teams are using it but adoption is patchy</span></div>
+        <div class="option" onclick="selectOption(this,1,0,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">Most teams use it regularly</span></div>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="4">
+      <div class="q-num">Question 5 of 12</div>
+      <div class="q-text">When staff use Copilot, how confident do they feel?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,1,1,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">Most feel overwhelmed or do not know where to start</span></div>
+        <div class="option" onclick="selectOption(this,1,1,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">Some try it but give up quickly</span></div>
+        <div class="option" onclick="selectOption(this,1,1,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Confident in a few basic tasks but not much beyond that</span></div>
+        <div class="option" onclick="selectOption(this,1,1,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">Confident across a range of tasks</span></div>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="5">
+      <div class="q-num">Question 6 of 12</div>
+      <div class="q-text">Are there clear use cases or workflows where your team has tried Copilot?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,1,2,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">No specific use cases identified yet</span></div>
+        <div class="option" onclick="selectOption(this,1,2,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">A few individuals have found their own uses</span></div>
+        <div class="option" onclick="selectOption(this,1,2,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Some team-level use cases have been identified</span></div>
+        <div class="option" onclick="selectOption(this,1,2,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">We have defined use cases across multiple teams</span></div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-prev" onclick="prevSection(1)">← Back</button>
+      <button class="btn btn-next" onclick="nextSection(1)" id="next-1">Next Section →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-step" data-section="2" style="display:none">
+    <div class="section-header" style="background:var(--teal)">
+      <div class="section-icon">🛡️</div>
+      <div>
+        <h2>Section 3: Governance and Safety</h2>
+        <p>Questions 7 to 9 - how well governed is your AI use?</p>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="6">
+      <div class="q-num">Question 7 of 12</div>
+      <div class="q-text">Does your organisation have a policy or guidelines on using AI tools at work?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,2,0,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">No policy exists</span></div>
+        <div class="option" onclick="selectOption(this,2,0,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">Informal guidance only - nothing written down</span></div>
+        <div class="option" onclick="selectOption(this,2,0,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">A basic policy exists but most staff are not aware of it</span></div>
+        <div class="option" onclick="selectOption(this,2,0,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">A clear policy exists and most staff know about it</span></div>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="7">
+      <div class="q-num">Question 8 of 12</div>
+      <div class="q-text">Do staff know what data they should not share with Copilot?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,2,1,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">No - there is no guidance on this</span></div>
+        <div class="option" onclick="selectOption(this,2,1,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">Some informal awareness but nothing consistent</span></div>
+        <div class="option" onclick="selectOption(this,2,1,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Most staff have been told but are not always sure in practice</span></div>
+        <div class="option" onclick="selectOption(this,2,1,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">Clear guidance exists and staff follow it</span></div>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="8">
+      <div class="q-num">Question 9 of 12</div>
+      <div class="q-text">Is your organisation aware of EU AI Act Article 4 obligations around AI literacy?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,2,2,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">No - we have not heard of this</span></div>
+        <div class="option" onclick="selectOption(this,2,2,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">We are aware but have not taken action</span></div>
+        <div class="option" onclick="selectOption(this,2,2,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">We are planning how to address it</span></div>
+        <div class="option" onclick="selectOption(this,2,2,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">We have a training plan in place</span></div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-prev" onclick="prevSection(2)">← Back</button>
+      <button class="btn btn-next" onclick="nextSection(2)" id="next-2">Next Section →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section-step" data-section="3" style="display:none">
+    <div class="section-header" style="background:linear-gradient(135deg,#d4aa00,#F5C842)">
+      <div class="section-icon">📚</div>
+      <div>
+        <h2 style="color:var(--dark)">Section 4: Skills and Training</h2>
+        <p style="color:rgba(28,43,42,.7)">Questions 10 to 12 - what skills and training exist?</p>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="9">
+      <div class="q-num">Question 10 of 12</div>
+      <div class="q-text">Has your team received any formal AI or Copilot training?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,3,0,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">No training has taken place</span></div>
+        <div class="option" onclick="selectOption(this,3,0,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">A few individuals have self-taught using online resources</span></div>
+        <div class="option" onclick="selectOption(this,3,0,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Some informal training or demos have happened</span></div>
+        <div class="option" onclick="selectOption(this,3,0,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">Structured training has been delivered</span></div>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="10">
+      <div class="q-num">Question 11 of 12</div>
+      <div class="q-text">Do staff know how to write effective prompts?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,3,1,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">Most staff do not know what a prompt is</span></div>
+        <div class="option" onclick="selectOption(this,3,1,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">Some have tried prompting but results are inconsistent</span></div>
+        <div class="option" onclick="selectOption(this,3,1,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Staff can write basic prompts but struggle with complex tasks</span></div>
+        <div class="option" onclick="selectOption(this,3,1,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">Most staff prompt effectively and get consistently useful results</span></div>
+      </div>
+    </div>
+
+    <div class="q-card" data-q="11">
+      <div class="q-num">Question 12 of 12</div>
+      <div class="q-text">Is there an internal champion or lead responsible for AI adoption?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,3,2,1)"><div class="opt-radio"></div><span class="opt-label">A</span><span class="opt-text">No one has this responsibility</span></div>
+        <div class="option" onclick="selectOption(this,3,2,2)"><div class="opt-radio"></div><span class="opt-label">B</span><span class="opt-text">It has been discussed but no one is formally assigned</span></div>
+        <div class="option" onclick="selectOption(this,3,2,3)"><div class="opt-radio"></div><span class="opt-label">C</span><span class="opt-text">Someone is informally leading this</span></div>
+        <div class="option" onclick="selectOption(this,3,2,4)"><div class="opt-radio"></div><span class="opt-label">D</span><span class="opt-text">A named person or team owns AI adoption</span></div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-prev" onclick="prevSection(3)">← Back</button>
+      <button class="btn btn-next" onclick="nextSection(3)" id="next-3">See My Results →</button>
+    </div>
+  </div>
+
+  <!-- EMAIL CAPTURE -->
+  <div class="section-step" data-section="4" style="display:none">
+    <div class="email-section">
+      <h2>Almost there - where should we send your results?</h2>
+      <p>Enter your details below to see your full AI Readiness score and personalised recommendations. We will also send you a copy by email so you can share it with your team or leadership.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fname">First name *</label>
+          <input type="text" id="fname" placeholder="Your first name" required>
+        </div>
+        <div class="form-group">
+          <label for="lname">Last name *</label>
+          <input type="text" id="lname" placeholder="Your last name" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Work email address *</label>
+        <input type="email" id="email" placeholder="you@yourorganisation.com" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="org">Organisation name</label>
+          <input type="text" id="org" placeholder="Your organisation">
+        </div>
+        <div class="form-group">
+          <label for="role">Your role</label>
+          <input type="text" id="role" placeholder="e.g. Operations Manager">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="size">Approximate team size</label>
+        <select id="size">
+          <option value="">Select team size</option>
+          <option>1 to 10 people</option>
+          <option>11 to 50 people</option>
+          <option>51 to 200 people</option>
+          <option>201 to 500 people</option>
+          <option>500 or more people</option>
+        </select>
+      </div>
+      <div class="consent">
+        <input type="checkbox" id="consent" required>
+        <label for="consent">I agree to AI Workflow Lab contacting me about my results and relevant training options. I can unsubscribe at any time. See our <a href="https://www.theaiworkflowlab.com/privacy.html" target="_blank">privacy policy</a>.</label>
+      </div>
+      <div class="nav-btns">
+        <button class="btn btn-prev" onclick="prevSection(4)">← Back</button>
+        <button class="btn btn-submit" onclick="submitAssessment()">See My Results →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-wrap" id="results-wrap">
+    <div class="score-hero">
+      <span class="score-number" id="total-score">--<span class="score-denom">/48</span></span>
+      <div class="score-label" id="score-label">Calculating...</div>
+      <div class="score-sub" id="score-sub"></div>
+    </div>
+
+    <div class="section-scores" id="section-scores"></div>
+
+    <div class="result-card" id="result-detail">
+      <h3 id="result-title"></h3>
+      <p id="result-desc"></p>
+    </div>
+
+    <div class="next-step-box">
+      <h3>Your recommended next step</h3>
+      <p id="next-step-text"></p>
+    </div>
+
+    <div class="cta-strip">
+      <h3>Ready to take action?</h3>
+      <p>Book a free 30-minute consultation and we will walk through your results together - no pressure, just an honest conversation about what will help your team most.</p>
+      <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-coral-solid" target="_blank" rel="noopener">Book a Free Consultation</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand"><span class="footer-dot"></span> AI Workflow Lab</div>
+      <p class="footer-tagline">Practical Microsoft Copilot training for teams who want results - not just a licence. Simple, human, and built around the work you actually do.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Training</h4>
+      <ul>
+        <li><a href="https://www.theaiworkflowlab.com/team-training.html">Team Training</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/copilot-for-me.html">Copilot for Me</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/catalogue.html">Our Catalogue</a></li>
+        <li><a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" target="_blank" rel="noopener">Book a Consultation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Free Resources</h4>
+      <ul>
+        <li><a href="https://www.theaiworkflowlab.com/ai-glossary.html">AI Glossary</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/ai-readiness-assessment.html">AI Readiness Assessment</a></li>
+        <li><a href="AIWorkflowLab_AI_Glossary.pdf" download>Download Glossary PDF</a></li>
+        <li><a href="AIWorkflowLab_Training_Catalogue_2026.pdf" download>Download Catalogue</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="https://www.theaiworkflowlab.com/privacy.html">Privacy Policy</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/terms.html">Terms and Conditions</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/cookies.html">Cookie Policy</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <ul>
+        <li><a href="mailto:hello@theaiworkflowlab.com">hello@theaiworkflowlab.com</a></li>
+        <li><a href="https://www.theaiworkflowlab.com">www.theaiworkflowlab.com</a></li>
+        <li><a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" target="_blank" rel="noopener">Book a free call</a></li>
+        <li><a href="https://www.youtube.com/channel/UCLHVuxj1HC4qE4ZhM_4ApBA" target="_blank" rel="noopener">YouTube channel</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 AI Workflow Lab. Microsoft Copilot Training for Teams.</p>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
+      <a href="https://www.theaiworkflowlab.com/privacy.html">Privacy Policy</a>
+      <a href="https://www.theaiworkflowlab.com/terms.html">Terms</a>
+      <a href="https://www.theaiworkflowlab.com/cookies.html">Cookies</a>
+      <a href="mailto:hello@theaiworkflowlab.com">hello@theaiworkflowlab.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// State
+var answers = [
+  [null,null,null], // section 1
+  [null,null,null], // section 2
+  [null,null,null], // section 3
+  [null,null,null], // section 4
+];
+var currentSection = 0;
+
+var SECTION_NAMES = [
+  "Awareness and Understanding",
+  "Adoption and Usage",
+  "Governance and Safety",
+  "Skills and Training"
+];
+var SECTION_COLORS = ["#1A9E8F","#FF7858","#1A9E8F","#F5C842"];
+
+function selectOption(el, section, qIndex, score) {
+  // Deselect siblings
+  var siblings = el.parentElement.querySelectorAll('.option');
+  siblings.forEach(function(s){ s.classList.remove('selected'); });
+  el.classList.add('selected');
+  // Store
+  answers[section][qIndex] = score;
+  // Mark card answered
+  el.closest('.q-card').classList.add('answered');
+  updateProgress();
+  updateNextBtn(section);
+}
+
+function updateProgress() {
+  var answered = 0;
+  answers.forEach(function(s){ s.forEach(function(a){ if(a!==null) answered++; }); });
+  var pct = Math.round((answered/12)*100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '% complete';
+  // Update question label
+  var q = answered + 1;
+  if(q > 12) q = 12;
+  document.getElementById('progress-text').textContent = 'Question ' + q + ' of 12';
+}
+
+function updateNextBtn(section) {
+  var btn = document.getElementById('next-' + section);
+  if(!btn) return;
+  var sectionAnswers = answers[section];
+  var allAnswered = sectionAnswers.every(function(a){ return a !== null; });
+  btn.disabled = !allAnswered;
+}
+
+function nextSection(from) {
+  var sectionAnswers = answers[from];
+  var allAnswered = sectionAnswers.every(function(a){ return a !== null; });
+  if(!allAnswered) { alert('Please answer all questions in this section before continuing.'); return; }
+  showSection(from + 1);
+}
+
+function prevSection(current) {
+  showSection(current - 1);
+}
+
+function showSection(idx) {
+  document.querySelectorAll('.section-step').forEach(function(el){ el.style.display='none'; });
+  var steps = document.querySelectorAll('.section-step');
+  if(steps[idx]) steps[idx].style.display = 'block';
+  currentSection = idx;
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(idx < 4) updateNextBtn(idx);
+}
+
+function submitAssessment() {
+  var fname = document.getElementById('fname').value.trim();
+  var lname = document.getElementById('lname').value.trim();
+  var email = document.getElementById('email').value.trim();
+  var consent = document.getElementById('consent').checked;
+
+  if(!fname || !email) {
+    alert('Please enter your first name and email address to see your results.');
+    return;
+  }
+  if(!consent) {
+    alert('Please tick the consent box to continue.');
+    return;
+  }
+  if(!/\S+@\S+\.\S+/.test(email)) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  // Calculate scores
+  var sectionScores = answers.map(function(s){
+    return s.reduce(function(a,b){ return a + (b||0); }, 0);
+  });
+  var total = sectionScores.reduce(function(a,b){ return a+b; }, 0);
+
+  // Score band label
+  var band = total <= 19 ? 'Getting Started' :
+             total <= 29 ? 'Building Momentum' :
+             total <= 39 ? 'Gaining Traction' : 'AI Ready';
+
+  // Submit to Netlify
+  var formData = new FormData();
+  formData.append('form-name', 'ai-readiness-assessment');
+  formData.append('first-name', fname);
+  formData.append('last-name', lname);
+  formData.append('email', email);
+  formData.append('organisation', document.getElementById('org').value);
+  formData.append('role', document.getElementById('role').value);
+  formData.append('team-size', document.getElementById('size').value);
+  formData.append('total-score', total + ' / 48');
+  formData.append('score-band', band);
+  formData.append('section-1-score', sectionScores[0] + ' / 12 (Awareness)');
+  formData.append('section-2-score', sectionScores[1] + ' / 12 (Adoption)');
+  formData.append('section-3-score', sectionScores[2] + ' / 12 (Governance)');
+  formData.append('section-4-score', sectionScores[3] + ' / 12 (Skills)');
+  formData.append('answers', JSON.stringify(answers));
+  formData.append('bot-field', '');
+
+  fetch('/', {
+    method: 'POST',
+    body: formData
+  })
+  .then(function() {
+    console.log('Netlify form submitted successfully');
+  })
+  .catch(function(err) {
+    console.error('Netlify form error:', err);
+    // Still show results even if submission fails
+  });
+
+  // Show results immediately - don't wait for network
+  showResults(total, sectionScores, fname);
+}
+
+function showResults(total, sectionScores, fname) {
+  // Hide form sections
+  document.querySelectorAll('.section-step').forEach(function(el){ el.style.display='none'; });
+  document.querySelector('.progress-wrap').style.display = 'none';
+
+  // Show results
+  var rw = document.getElementById('results-wrap');
+  rw.style.display = 'block';
+
+  // Score
+  document.getElementById('total-score').innerHTML = total + '<span class="score-denom">/48</span>';
+
+  // Band
+  var label, sub, desc, next;
+  if(total <= 19) {
+    label = 'Getting Started';
+    sub = 'Your team is at the beginning of the AI adoption journey.';
+    desc = 'Most staff are not yet using Copilot and governance foundations are not yet in place. The good news: you have identified this early, which means the opportunity to get ahead of competitors and compliance requirements is very much still open.';
+    next = 'Start with a full-day Copilot Workshop to build awareness and hands-on confidence across the team. This gives everyone a shared foundation and surfaces the use cases that will make the biggest difference fastest. We can also help you put a basic governance policy in place.';
+  } else if(total <= 29) {
+    label = 'Building Momentum';
+    sub = 'Some good foundations are in place but adoption is patchy.';
+    desc = 'There are gaps in governance or skills that are holding back wider adoption. A focused push at this stage could make a significant difference quickly - the groundwork is there, it just needs to be built on systematically.';
+    next = 'A structured multi-session programme would consolidate skills and close the governance gaps. Consider our 6-session Essentials block, which can be delivered to your whole team online over six weeks and includes governance, prompting, and practical use cases built around your workflows.';
+  } else if(total <= 39) {
+    label = 'Gaining Traction';
+    sub = 'Your team is using Copilot with reasonable confidence.';
+    desc = 'Some governance is in place and adoption is growing. The opportunity now is to deepen skills and move from individual use to team-wide workflows and automation. This is where the biggest productivity gains tend to emerge.';
+    next = 'The 12-session flagship programme would take your team from confident to genuinely expert. Focus areas would include advanced prompting, Copilot Agents for workflow automation, deep research capabilities, and responsible and sustainable AI use.';
+  } else {
+    label = 'AI Ready';
+    sub = 'Strong AI foundations across the board.';
+    desc = 'Your organisation has good adoption, clear governance, and skilled staff. You are ahead of most UK organisations at this point. The focus now is maintaining momentum, staying current as Copilot evolves, and building more sophisticated workflows.';
+    next = 'Consider advanced sector-specific deep dives or working with us on bespoke AI workflow automation for your specific processes. We can also support you in building an internal AI champion programme so skills keep growing without external input.';
+  }
+
+  document.getElementById('score-label').textContent = fname ? 'Hi ' + fname + '. Your score: ' + label : label;
+  document.getElementById('score-sub').textContent = sub;
+  document.getElementById('result-title').textContent = 'What this means for your organisation';
+  document.getElementById('result-desc').textContent = desc;
+  document.getElementById('next-step-text').textContent = next;
+
+  // Section scores
+  var container = document.getElementById('section-scores');
+  container.innerHTML = '';
+  sectionScores.forEach(function(score, i) {
+    var pct = Math.round((score/12)*100);
+    var color = SECTION_COLORS[i];
+    container.innerHTML += '<div class="section-score-card">' +
+      '<h4>' + SECTION_NAMES[i] + '</h4>' +
+      '<div class="score-bar-track"><div class="score-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+      '<div class="score-bar-label">' + score + ' out of 12</div>' +
+    '</div>';
+  });
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Initialise - disable all next buttons
+[0,1,2,3].forEach(function(i){ updateNextBtn(i); });
+</script>
+
+</body>
+</html>

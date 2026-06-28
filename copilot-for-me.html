@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copilot for Me | AI Workflow Lab</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#1A9E8F;--teal2:#0D7A6E;--turq:#3DD6C4;--turq-lt:#E0FAF7;
+  --mustard:#F5C842;--must-lt:#FFFAE6;--must-dk:#8a6c00;
+  --coral:#FF7858;--coral-dk:#C84535;--coral-lt:#FFF0EC;
+  --dark:#1C2B2A;--mid:#4A6360;--muted:#7A9490;
+  --light:#F8FEFE;--border:#D4EDEA;--white:#FFFFFF;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--dark);background:var(--white);font-size:16px;line-height:1.65}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;line-height:1.15}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--border);padding:0 6%;display:flex;align-items:center;justify-content:space-between;height:66px}
+.nav-logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.15rem;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:8px}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:var(--mustard);display:inline-block;flex-shrink:0}
+.nav-links{display:flex;gap:0;list-style:none;align-items:center}
+.nav-links li a{text-decoration:none;color:var(--mid);font-size:.875rem;font-weight:500;padding:.4rem .9rem;border-radius:8px;transition:color .2s,background .2s;display:block}
+.nav-links li a:hover{color:var(--teal);background:var(--turq-lt)}
+.nav-links li a.active{color:var(--teal);font-weight:600}
+.nav-cta{background:var(--coral)!important;color:#fff!important;padding:.45rem 1.2rem!important;border-radius:50px!important;font-weight:600!important;transition:opacity .2s!important}
+.nav-cta:hover{opacity:.85!important;background:var(--coral)!important}
+
+/* FOOTER */
+footer{background:var(--dark);padding:48px 6% 32px;border-top:2px solid var(--teal)}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+.footer-brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.15rem;color:#fff;display:flex;align-items:center;gap:7px;margin-bottom:.9rem}
+.footer-dot{width:9px;height:9px;border-radius:50%;background:var(--mustard);flex-shrink:0}
+.footer-tagline{color:rgba(255,255,255,.45);font-size:.85rem;line-height:1.65;max-width:280px}
+.footer-col h4{font-family:'Bricolage Grotesque',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mustard);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.footer-col ul li a{text-decoration:none;color:rgba(255,255,255,.55);font-size:.87rem;transition:color .2s}
+.footer-col ul li a:hover{color:var(--turq)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+.footer-bottom p{color:rgba(255,255,255,.3);font-size:.78rem}
+.footer-bottom a{color:rgba(255,255,255,.3);font-size:.78rem;text-decoration:none}
+
+/* SHARED BUTTONS */
+.btn-coral{display:inline-block;background:var(--coral);color:#fff;text-decoration:none;padding:.85rem 2rem;border-radius:50px;font-weight:700;font-size:.95rem;font-family:'Bricolage Grotesque',sans-serif;transition:background .2s,transform .15s;box-shadow:0 4px 0 #c95035}
+.btn-coral:hover{background:#e8603e;transform:translateY(-1px)}
+.btn-teal{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;padding:.85rem 2rem;border-radius:50px;font-weight:700;font-size:.95rem;font-family:'Bricolage Grotesque',sans-serif;transition:background .2s,transform .15s;box-shadow:0 4px 0 #0D7A6E}
+.btn-teal:hover{background:var(--teal2);transform:translateY(-1px)}
+.btn-outline{display:inline-block;background:transparent;color:var(--teal);text-decoration:none;padding:.85rem 2rem;border-radius:50px;font-weight:600;font-size:.95rem;border:2px solid var(--teal);transition:background .2s;font-family:'Bricolage Grotesque',sans-serif}
+.btn-outline:hover{background:var(--turq-lt)}
+.btn-white{display:inline-block;background:#fff;color:var(--teal);text-decoration:none;padding:.85rem 2.4rem;border-radius:50px;font-weight:700;font-size:.95rem;font-family:'Bricolage Grotesque',sans-serif;transition:background .2s}
+.btn-white:hover{background:var(--turq-lt)}
+.btn-yellow{display:inline-block;background:var(--mustard);color:var(--dark);text-decoration:none;padding:.85rem 2rem;border-radius:50px;font-weight:700;font-size:.95rem;font-family:'Bricolage Grotesque',sans-serif;transition:background .2s;box-shadow:0 4px 0 #c9a200}
+.btn-yellow:hover{background:#e0b430}
+
+/* SHARED SECTION STYLES */
+section{padding:80px 6%}
+.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);margin-bottom:.7rem;display:block}
+.section-h2{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:800;color:var(--dark);margin-bottom:.5rem}
+.section-h2 em{font-style:normal;color:var(--teal)}
+.section-intro{color:var(--mid);font-size:1rem;max-width:580px;line-height:1.75;margin-bottom:2.5rem}
+.logo-chip{background:var(--light);border:1.5px solid var(--border);border-radius:10px;padding:.5rem 1.3rem;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.82rem;color:var(--mid)}
+.logo-strip{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap}
+.strip-cta{background:var(--teal);padding:60px 6%;text-align:center;position:relative;overflow:hidden}
+.strip-cta::before,.strip-cta::after{content:'';position:absolute;border-radius:50%;pointer-events:none;opacity:.12}
+.strip-cta::before{width:350px;height:350px;background:var(--mustard);top:-120px;left:-80px}
+.strip-cta::after{width:250px;height:250px;background:var(--turq);bottom:-100px;right:-50px}
+.strip-cta h2{font-size:clamp(1.6rem,3vw,2.2rem);color:#fff;margin-bottom:.5rem;font-weight:800;position:relative;z-index:1}
+.strip-cta p{color:rgba(255,255,255,.8);font-size:1rem;margin-bottom:2rem;position:relative;z-index:1}
+.strip-cta .inner{position:relative;z-index:1}
+/* GRID BG */
+.grid-bg{background-image:linear-gradient(rgba(29,158,143,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(29,158,143,0.05) 1px,transparent 1px);background-size:44px 44px}
+
+/* REVIEWS */
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:1100px}
+.review-card{background:var(--light);border:1.5px solid var(--border);border-radius:18px;padding:1.6rem;transition:box-shadow .2s}
+.review-card:hover{box-shadow:0 8px 28px rgba(29,158,143,.09)}
+.stars{color:var(--mustard);font-size:.95rem;letter-spacing:2px;margin-bottom:.8rem}
+.review-card h4{font-size:.97rem;font-weight:700;color:var(--teal);margin-bottom:.5rem;font-family:'Bricolage Grotesque',sans-serif}
+.review-card p{font-size:.87rem;color:var(--mid);line-height:1.65;margin-bottom:.9rem}
+.reviewer{font-size:.78rem;font-weight:600;color:var(--dark)}
+
+/* FAQ */
+.faq-item{background:var(--white);border:1.5px solid var(--border);border-radius:14px;margin-bottom:.8rem;overflow:hidden}
+.faq-q{padding:1.2rem 1.5rem;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.97rem;color:var(--dark);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;transition:background .2s}
+.faq-q:hover{background:var(--turq-lt)}
+.faq-toggle{width:26px;height:26px;border-radius:50%;background:var(--turq-lt);border:1.5px solid var(--turq);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.faq-a{padding:0 1.5rem 1.2rem;font-size:.9rem;color:var(--mid);line-height:1.75}
+
+/* COMPARE */
+.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;max-width:960px;margin-top:2.4rem}
+.col-us,.col-them{border-radius:18px;overflow:hidden}
+.col-head{padding:1.1rem 1.5rem;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.95rem}
+.col-us .col-head{background:var(--teal);color:#fff}
+.col-them .col-head{background:var(--border);color:var(--mid)}
+.compare-list{list-style:none}
+.compare-list li{background:var(--white);padding:.95rem 1.5rem;border-bottom:1px solid var(--border);font-size:.88rem;line-height:1.55;display:flex;gap:.8rem;align-items:flex-start}
+.compare-list li:last-child{border-bottom:none}
+.tick{color:var(--teal);font-weight:700;flex-shrink:0}
+.cross{color:#c0ccca;flex-shrink:0}
+
+@media(max-width:960px){
+  .footer-inner{grid-template-columns:1fr 1fr;gap:2rem}
+  .reviews-grid{grid-template-columns:1fr 1fr}
+  .compare-wrap{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .nav-links{display:none}
+  .reviews-grid{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+}
+</style>
+
+<style>
+.course-hero{background:var(--white);padding:90px 6% 80px;display:grid;grid-template-columns:1.1fr .9fr;gap:4rem;align-items:center;position:relative;overflow:hidden}
+.course-hero-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(29,158,143,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(29,158,143,0.045) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.course-badge{display:inline-flex;align-items:center;gap:8px;background:var(--turq-lt);border:1.5px solid var(--turq);color:var(--teal2);font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.4rem 1rem;border-radius:50px;margin-bottom:1.4rem}
+.course-hero h1{font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;color:var(--dark);margin-bottom:1.2rem}
+.course-hero h1 em{font-style:normal;color:var(--teal)}
+.course-hero p{color:var(--mid);font-size:1.05rem;line-height:1.75;max-width:520px;margin-bottom:2rem}
+.course-visual{background:var(--teal);border-radius:24px;padding:2.2rem;display:flex;flex-direction:column;gap:1rem}
+.cv-label{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.3rem}
+.cv-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:1.4rem}
+.cv-module{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:.8rem}
+.cv-num{width:28px;height:28px;border-radius:50%;background:var(--mustard);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.82rem;color:var(--dark);flex-shrink:0}
+.cv-module p{color:rgba(255,255,255,.85);font-size:.85rem;line-height:1.4}
+/* who section */
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:1100px}
+.who-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:1.5rem;border-top:4px solid var(--mustard)}
+.who-card:nth-child(2){border-top-color:var(--teal)}
+.who-card:nth-child(3){border-top-color:var(--coral)}
+.who-card h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:.5rem}
+.who-card p{font-size:.88rem;color:var(--mid);line-height:1.65}
+/* curriculum */
+.curriculum{background:var(--light)}
+.module-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;max-width:1000px}
+.module-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:border-color .2s}
+.module-card:hover{border-color:var(--teal)}
+.mod-num{width:36px;height:36px;border-radius:10px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.9rem;color:#fff;flex-shrink:0}
+.module-card h3{font-family:'Bricolage Grotesque',sans-serif;font-size:.97rem;font-weight:700;color:var(--dark);margin-bottom:.35rem}
+.module-card p{font-size:.85rem;color:var(--mid);line-height:1.6}
+/* included */
+.included-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:1100px}
+.inc-card{background:var(--light);border:1.5px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center}
+.inc-icon{font-size:2rem;margin-bottom:.8rem}
+.inc-card h3{font-family:'Bricolage Grotesque',sans-serif;font-size:.97rem;font-weight:700;color:var(--dark);margin-bottom:.4rem}
+.inc-card p{font-size:.85rem;color:var(--mid);line-height:1.6}
+/* enroll */
+.enroll{background:var(--dark);padding:80px 6%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;position:relative;overflow:hidden}
+.enroll::before{content:'';position:absolute;width:350px;height:350px;border-radius:50%;background:rgba(61,214,196,.06);top:-100px;right:-80px;pointer-events:none}
+.enroll h2{font-size:clamp(1.8rem,3vw,2.6rem);color:#fff;margin-bottom:1rem;font-weight:800}
+.enroll h2 em{font-style:normal;color:var(--mustard)}
+.enroll > div > p{color:rgba(255,255,255,.65);font-size:.97rem;line-height:1.75;margin-bottom:1.5rem}
+.enroll-card{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:20px;padding:2.2rem}
+.enroll-card h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.4rem}
+.enroll-price{font-family:'Bricolage Grotesque',sans-serif;font-size:2rem;font-weight:800;color:var(--mustard);margin:.8rem 0 .3rem}
+.enroll-note{font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:1.4rem}
+.enroll-list{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.8rem}
+.enroll-list li{font-size:.88rem;color:rgba(255,255,255,.7);display:flex;gap:.6rem;align-items:flex-start}
+.enroll-list li::before{content:'✓';color:var(--turq);font-weight:700;flex-shrink:0}
+@media(max-width:960px){
+  .course-hero,.enroll{grid-template-columns:1fr}
+  .who-grid,.included-grid{grid-template-columns:1fr 1fr}
+  .module-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){.who-grid,.included-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://www.theaiworkflowlab.com/index.html" class="nav-logo"><span class="nav-dot"></span> AI Workflow Lab</a>
+  <ul class="nav-links">
+    <li><a href="https://www.theaiworkflowlab.com/index.html">Home</a></li>
+    <li><a href="https://www.theaiworkflowlab.com/team-training.html">Team Training</a></li>
+    <li><a href="https://www.theaiworkflowlab.com/copilot-for-me.html" class="active">Copilot for Me</a></li>
+    <li><a href="https://www.theaiworkflowlab.com/catalogue.html">Our Catalogue</a></li>
+    
+    <li><a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="nav-cta" target="_blank" rel="noopener">Book a Call</a></li>
+  </ul>
+</nav>
+
+<section class="course-hero">
+  <div class="course-hero-bg"></div>
+  <svg style="position:absolute;top:0;right:0;pointer-events:none;opacity:.12" width="400" height="320" viewBox="0 0 400 320" fill="none">
+    <circle cx="360" cy="60" r="60" fill="#3DD6C4"/>
+    <circle cx="330" cy="270" r="36" fill="#F5C842"/>
+    <path d="M60 280 Q90 250 120 280 Q150 310 180 280" stroke="#FF7858" stroke-width="3" fill="none"/>
+    <rect x="20" y="40" width="44" height="44" rx="12" fill="#FF7858" fill-opacity=".12" transform="rotate(12 42 62)"/>
+  </svg>
+  <div style="position:relative;z-index:1">
+    <span class="course-badge">✦ Your Personal Copilot Programme</span>
+    <h1>Get genuinely good at Copilot <em>on your own terms</em></h1>
+    <p>Not waiting for your employer to sort it? Copilot for Me is your personal, self-paced programme - built for individuals who want to get ahead with Microsoft Copilot without needing a team training day to do it.</p>
+    <div style="display:flex;gap:.9rem;flex-wrap:wrap">
+      <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-coral" target="_blank" rel="noopener">Join the Early Access List</a>
+    </div>
+  </div>
+  <div class="course-visual" style="position:relative;z-index:1">
+    <div class="cv-label">What is inside</div>
+    <div class="cv-title">AI Workflow Lab<br>Copilot Literacy Course</div>
+    <div class="cv-module"><div class="cv-num">1</div><p>What AI actually is - and what it is not</p></div>
+    <div class="cv-module"><div class="cv-num">2</div><p>Getting started with Microsoft Copilot</p></div>
+    <div class="cv-module"><div class="cv-num">3</div><p>Prompting - how to ask AI the right way</p></div>
+    <div class="cv-module"><div class="cv-num">4</div><p>Using Copilot safely and responsibly</p></div>
+    <div class="cv-module"><div class="cv-num">5</div><p>Applying AI to your everyday work tasks</p></div>
+  </div>
+</section>
+
+<section style="background:var(--light);padding:44px 6%;border-bottom:1.5px solid var(--border);border-top:1.5px solid var(--border);text-align:center">
+  <p style="font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7A9490;margin-bottom:1.6rem">Built for individuals, not teams</p>
+  <div class="logo-strip">
+    <div class="logo-chip">Professionals upskilling independently</div>
+    <div class="logo-chip">Job seekers building AI credentials</div>
+    <div class="logo-chip">Anyone not waiting for their employer</div>
+    <div class="logo-chip">Career changers and returners</div>
+    <div class="logo-chip">Complete beginners welcome</div>
+  </div>
+</section>
+
+<section style="background:var(--white);position:relative;overflow:hidden">
+  <svg style="position:absolute;bottom:0;right:0;pointer-events:none;opacity:.1" width="300" height="200" viewBox="0 0 300 200" fill="none">
+    <path d="M0 160 Q40 120 80 160 Q120 200 160 160 Q200 120 240 160 Q270 180 300 160" stroke="#3DD6C4" stroke-width="6" fill="none"/>
+    <circle cx="270" cy="40" r="40" fill="#F5C842"/>
+  </svg>
+  <span class="eyebrow">Sound familiar?</span>
+  <h2 class="section-h2">You want to get good at Copilot. <em>You just need the right starting point.</em></h2>
+  <p class="section-intro">This is the most common thing we hear. Here is why that changes with this course.</p>
+  <div class="who-grid">
+    <div class="who-card">
+      <h3>You want to get ahead of your colleagues</h3>
+      <p>Copilot is rolling out across your organisation and you want to be the person who already knows how to use it well - not the one who is still figuring it out in six months.</p>
+    </div>
+    <div class="who-card">
+      <h3>Your employer has not organised training yet</h3>
+      <p>You do not want to wait. Copilot for Me lets you start now, at your own pace, and arrive at work already knowing what your colleagues are still being taught.</p>
+    </div>
+    <div class="who-card">
+      <h3>You want a certificate you can point to</h3>
+      <p>Complete all five modules and earn your Copilot for Me certificate - shareable on LinkedIn, useful in a job interview, and proof that you took the initiative to learn.</p>
+    </div>
+  </div>
+</section>
+
+<section class="curriculum">
+  <span class="eyebrow">Course curriculum</span>
+  <h2 class="section-h2">Everything covered, <em>nothing assumed</em></h2>
+  <p class="section-intro">Five clear modules, each designed to build on the last. Interactive learning activities, practical exercises, and real examples throughout.</p>
+  <div class="module-grid">
+    <div class="module-card"><div class="mod-num">01</div><div><h3>What AI Actually Is</h3><p>Cut through the noise. Understand what AI genuinely can and cannot do - so you use it with confidence and healthy scepticism.</p></div></div>
+    <div class="module-card"><div class="mod-num">02</div><div><h3>Getting Started with Microsoft Copilot</h3><p>Your first hands-on sessions with Copilot. What to click, what to say, and how to start using it immediately in your working day.</p></div></div>
+    <div class="module-card"><div class="mod-num">03</div><div><h3>How to Prompt Like a Pro</h3><p>The RCICO framework - Role, Context, Instruction, Constraints, Output. The single skill that turns Copilot from a curiosity into a genuine time-saver.</p></div></div>
+    <div class="module-card"><div class="mod-num">04</div><div><h3>Using Copilot Safely</h3><p>Data protection, privacy, when not to use AI, and how to check what it produces. Responsible use you can apply from day one.</p></div></div>
+    <div class="module-card"><div class="mod-num">05</div><div><h3>AI in Your Everyday Work</h3><p>Emails, meeting notes, research, documents, scheduling. Real use cases from real jobs - built around the tasks you actually do every day.</p></div></div>
+    <div class="module-card" style="border-style:dashed;background:var(--turq-lt);border-color:var(--turq)"><div class="mod-num" style="background:var(--turq)">+</div><div><h3>Bonus: Copilot for Me Certificate</h3><p>Complete all five modules and earn your Copilot for Me Certificate - proof of your new skills you can share on LinkedIn or with your employer.</p></div></div>
+  </div>
+</section>
+
+<section class="strip-cta">
+  <div class="inner">
+    <h2>Launching soon - be first in line</h2>
+    <p>Copilot for Me is in development. Join the early access list and get the founding member price when we launch.</p>
+    <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-white" target="_blank" rel="noopener">Join the Early Access List</a>
+  </div>
+</section>
+
+<section style="background:var(--white)">
+  <span class="eyebrow">What is included</span>
+  <h2 class="section-h2">Everything you need to <em>succeed</em></h2>
+  <p class="section-intro">No extras to buy, no software to install. Just clear, practical learning you can start immediately.</p>
+  <div class="included-grid">
+    <div class="inc-card"><div class="inc-icon">📱</div><h3>Learn at your own pace</h3><p>Work through each module in your own time, on any device, whenever suits you best.</p></div>
+    <div class="inc-card"><div class="inc-icon">🎯</div><h3>Practical exercises</h3><p>Hands-on activities after each module so skills stick, not just slide through your head.</p></div>
+    <div class="inc-card"><div class="inc-icon">🛡️</div><h3>Safety built in</h3><p>Responsible and safe use of AI is covered in every module - not an optional extra.</p></div>
+    <div class="inc-card"><div class="inc-icon">🎓</div><h3>AI Literacy Certificate</h3><p>A shareable certificate when you complete all five modules. Recognised evidence of your new skills.</p></div>
+    <div class="inc-card"><div class="inc-icon">🔄</div><h3>Learn at your own pace</h3><p>No deadlines, no pressure. Work through the modules whenever suits you and come back to anything you want to revisit.</p></div>
+    <div class="inc-card"><div class="inc-icon">💬</div><h3>Community access</h3><p>Join a community of people on the same journey - share wins, ask questions, and keep learning.</p></div>
+  </div>
+</section>
+
+
+
+<section class="enroll">
+  <div>
+    <h2>Start your <em>Copilot journey</em></h2>
+    <p>Copilot for Me launches soon. This is a programme you buy for yourself - no employer approval needed, no waiting for a group training day to be organised. Just you, learning at your own pace.</p>
+    <p>Not sure if this course is right for you? Book a free 30-minute call and we will give you an honest answer.</p>
+    <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-yellow" target="_blank" rel="noopener">Book a Free Chat First</a>
+  </div>
+  <div class="enroll-card">
+    <h3>Copilot for Me</h3>
+    <div class="enroll-price">Coming soon</div>
+    <div class="enroll-note">Founding member price available - join the list to hear first</div>
+    <ul class="enroll-list">
+      <li>5 self-paced modules - learn at your speed</li>
+      <li>Practical hands-on exercises after every module</li>
+      <li>AI safety and responsible use throughout</li>
+      <li>Copilot for Me Certificate on completion</li>
+      <li>Learn at your own pace - no deadlines, no pressure</li>
+      <li>Community access</li>
+    </ul>
+    <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-coral" style="width:100%;text-align:center" target="_blank" rel="noopener">Join the Early Access List</a>
+  </div>
+</section>
+
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand"><span class="footer-dot"></span> AI Workflow Lab</div>
+      <p class="footer-tagline">Practical Microsoft Copilot training for teams who want results - not just a licence. Simple, human, and built around the work you actually do.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Training</h4>
+      <ul>
+        <li><a href="https://www.theaiworkflowlab.com/team-training.html">Team Training</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/copilot-for-me.html">Copilot for Me</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/catalogue.html">Our Catalogue</a></li>
+        <li><a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" target="_blank" rel="noopener">Book a Consultation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Free Resources</h4>
+      <ul>
+        <li><a href="https://www.theaiworkflowlab.com/ai-glossary.html">AI Glossary</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/ai-readiness-assessment.html">AI Readiness Assessment</a></li>
+        <li><a href="AIWorkflowLab_AI_Glossary.pdf" download>Download Glossary PDF</a></li>
+        <li><a href="AIWorkflowLab_Training_Catalogue_2026.pdf" download>Download Catalogue</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="https://www.theaiworkflowlab.com/privacy.html">Privacy Policy</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/terms.html">Terms and Conditions</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/cookies.html">Cookie Policy</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <ul>
+        <li><a href="mailto:hello@theaiworkflowlab.com">hello@theaiworkflowlab.com</a></li>
+        <li><a href="https://www.theaiworkflowlab.com">www.theaiworkflowlab.com</a></li>
+        <li><a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" target="_blank" rel="noopener">Book a free call</a></li>
+        <li><a href="https://www.youtube.com/channel/UCLHVuxj1HC4qE4ZhM_4ApBA" target="_blank" rel="noopener">YouTube channel</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 AI Workflow Lab. Microsoft Copilot Training for Teams.</p>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
+      <a href="https://www.theaiworkflowlab.com/privacy.html">Privacy Policy</a>
+      <a href="https://www.theaiworkflowlab.com/terms.html">Terms</a>
+      <a href="https://www.theaiworkflowlab.com/cookies.html">Cookies</a>
+      <a href="mailto:hello@theaiworkflowlab.com">hello@theaiworkflowlab.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(function(q){
+  // hide all answers on load
+  var a = q.nextElementSibling;
+  if(a && a.classList.contains('faq-a')){
+    a.style.display = 'none';
+    a.style.padding = '0 1.5rem 0';
+    a.style.transition = 'padding .2s';
+  }
+  q.addEventListener('click', function(){
+    var ans = this.nextElementSibling;
+    var tog = this.querySelector('.faq-toggle');
+    var open = ans.style.display === 'block';
+    // close all
+    document.querySelectorAll('.faq-a').forEach(function(el){
+      el.style.display='none';
+      el.style.padding='0 1.5rem 0';
+    });
+    document.querySelectorAll('.faq-toggle').forEach(function(el){el.textContent='+';});
+    // open this one if it was closed
+    if(!open){
+      ans.style.display='block';
+      ans.style.padding='0 1.5rem 1.2rem';
+      if(tog) tog.textContent = '−';
+    }
+  });
+});
+</script>
+
+
+<!-- POPUP STYLES -->
+<style>
+/* Overlay */
+.popup-overlay{position:fixed;inset:0;background:rgba(28,43,42,.65);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.popup-overlay.active{opacity:1;pointer-events:all}
+
+/* Popup box */
+.popup-box{background:var(--white);border-radius:24px;padding:0;max-width:520px;width:100%;position:relative;transform:translateY(20px);transition:transform .3s;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.popup-overlay.active .popup-box{transform:translateY(0)}
+
+/* Header band */
+.popup-header{padding:2rem 2rem 1.5rem;position:relative}
+.popup-close{position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--mid);transition:background .2s}
+.popup-close:hover{background:rgba(0,0,0,.15)}
+.popup-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:.6rem;display:block}
+.popup-h{font-family:'Bricolage Grotesque',sans-serif;font-size:1.5rem;font-weight:800;color:var(--dark);line-height:1.2;margin-bottom:.5rem}
+.popup-h em{font-style:normal}
+.popup-sub{font-size:.88rem;color:var(--mid);line-height:1.6}
+
+/* Body */
+.popup-body{padding:0 2rem 2rem}
+.popup-bullets{list-style:none;margin:1rem 0 1.5rem;display:flex;flex-direction:column;gap:.5rem}
+.popup-bullets li{font-size:.88rem;color:var(--dark);display:flex;gap:.6rem;align-items:flex-start}
+.popup-bullets li::before{font-weight:700;flex-shrink:0}
+
+/* Form */
+.popup-form{display:flex;flex-direction:column;gap:.7rem}
+.popup-form input{width:100%;padding:.8rem 1rem;border:1.5px solid var(--border);border-radius:10px;font-size:.93rem;font-family:'Inter',sans-serif;color:var(--dark);outline:none;transition:border-color .2s}
+.popup-form input:focus{border-color:var(--teal)}
+.popup-form input::placeholder{color:var(--muted)}
+.popup-btn{width:100%;padding:.9rem;border:none;border-radius:50px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:background .2s,transform .15s}
+.popup-btn:hover{transform:translateY(-1px)}
+.popup-note{font-size:.75rem;color:var(--muted);text-align:center;margin-top:.5rem}
+.popup-note a{color:var(--teal)}
+.popup-success{text-align:center;padding:2rem 0 1rem;display:none}
+.popup-success .success-icon{font-size:3rem;margin-bottom:.8rem}
+.popup-success h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.2rem;font-weight:800;color:var(--dark);margin-bottom:.5rem}
+.popup-success p{font-size:.9rem;color:var(--mid);line-height:1.6}
+
+/* Trigger badge (bottom corner) */
+.popup-trigger{position:fixed;bottom:2rem;right:2rem;z-index:999;cursor:pointer;display:flex;align-items:center;gap:.7rem;padding:.8rem 1.2rem;border-radius:50px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.88rem;border:none;box-shadow:0 8px 24px rgba(0,0,0,.18);transition:transform .2s,box-shadow .2s;animation:popIn .5s ease 4s both}
+.popup-trigger:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.22)}
+@keyframes popIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+
+<!-- POPUP 1: B2B - Is Your Team AI Ready? (shown on home + team training) -->
+<div class="popup-overlay" id="popup-b2b">
+  <div class="popup-box">
+    <div class="popup-header" style="background:linear-gradient(135deg,var(--teal),var(--teal2))">
+      <button class="popup-close" onclick="closePopup('popup-b2b')" style="background:rgba(255,255,255,.15);color:#fff">✕</button>
+      <span class="popup-eyebrow" style="color:rgba(255,255,255,.7)">Free download</span>
+      <h2 class="popup-h" style="color:#fff">Is Your Team <em style="color:var(--mustard)">AI Ready?</em></h2>
+      <p class="popup-sub" style="color:rgba(255,255,255,.75)">A free 5-minute self-assessment for managers and team leaders. Find out exactly where your team stands on Copilot adoption - and what to do next.</p>
+    </div>
+    <div class="popup-body">
+      <ul class="popup-bullets">
+        <li style="--bullet:'✓'"><span style="color:var(--teal);font-weight:700">✓</span>Instant PDF download - no waiting</li>
+        <li><span style="color:var(--teal);font-weight:700">✓</span>10 questions covering skills, confidence, and governance</li>
+        <li><span style="color:var(--teal);font-weight:700">✓</span>Scoring guide and recommended next steps included</li>
+        <li><span style="color:var(--teal);font-weight:700">✓</span>Ready to share with your leadership team</li>
+      </ul>
+      <div class="popup-form" id="form-b2b">
+        <input type="text" id="b2b-name" placeholder="Your first name" required>
+        <input type="email" id="b2b-email" placeholder="Your work email address" required>
+        <input type="text" id="b2b-org" placeholder="Your organisation (optional)">
+        <button class="popup-btn" style="background:var(--coral);color:#fff;box-shadow:0 4px 0 #c95035" onclick="submitPopup('b2b')">Send me the free assessment →</button>
+        <p class="popup-note">No spam. We will send you the PDF and occasionally share relevant AI training tips. Unsubscribe any time. See our <a href="privacy.html">privacy policy</a>.</p>
+      </div>
+      <div class="popup-success" id="success-b2b">
+        <div class="success-icon">🎉</div>
+        <h3>It's on its way!</h3>
+        <p>Check your inbox for the AI Readiness Assessment. If it does not arrive within a few minutes, check your spam folder.</p>
+        <p style="margin-top:.8rem">While you wait - <a href="team-training.html" style="color:var(--teal);font-weight:600">explore our team training programmes</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP 2: Individual - 10 Copilot Prompts (shown on copilot-for-me) -->
+<div class="popup-overlay" id="popup-individual">
+  <div class="popup-box">
+    <div class="popup-header" style="background:linear-gradient(135deg,#F5C842,#e0a800)">
+      <button class="popup-close" onclick="closePopup('popup-individual')" style="background:rgba(0,0,0,.1);color:var(--dark)">✕</button>
+      <span class="popup-eyebrow" style="color:rgba(28,43,42,.6)">Free download</span>
+      <h2 class="popup-h" style="color:var(--dark)">10 Copilot Prompts That Will <em style="color:var(--teal)">Save You an Hour</em> This Week</h2>
+      <p class="popup-sub" style="color:rgba(28,43,42,.65)">Ready-to-use prompts for emails, meeting notes, documents, and more. Copy, paste, and get results in minutes.</p>
+    </div>
+    <div class="popup-body">
+      <ul class="popup-bullets">
+        <li><span style="color:var(--teal);font-weight:700">✓</span>10 prompts you can use today - no Copilot experience needed</li>
+        <li><span style="color:var(--teal);font-weight:700">✓</span>Covers emails, summaries, documents, and research</li>
+        <li><span style="color:var(--teal);font-weight:700">✓</span>Explains the RCICO prompting framework in plain English</li>
+        <li><span style="color:var(--teal);font-weight:700">✓</span>Instant PDF download</li>
+      </ul>
+      <div class="popup-form" id="form-individual">
+        <input type="text" id="ind-name" placeholder="Your first name" required>
+        <input type="email" id="ind-email" placeholder="Your email address" required>
+        <button class="popup-btn" style="background:var(--teal);color:#fff;box-shadow:0 4px 0 var(--teal2)" onclick="submitPopup('individual')">Send me the free prompts →</button>
+        <p class="popup-note">No spam. We will send you the prompts and occasionally share Copilot tips. Unsubscribe any time. See our <a href="privacy.html">privacy policy</a>.</p>
+      </div>
+      <div class="popup-success" id="success-individual">
+        <div class="success-icon">⚡</div>
+        <h3>Prompts incoming!</h3>
+        <p>Your 10 Copilot prompts are on their way. Check your inbox - and if it does not arrive in a few minutes, check your spam folder.</p>
+        <p style="margin-top:.8rem">Want to go deeper? <a href="copilot-for-me.html" style="color:var(--teal);font-weight:600">Join the Copilot for Me early access list</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP SCRIPTS -->
+<script>
+// Which popup to show on which page
+var pagePopup = null;
+var path = window.location.pathname;
+if(path.indexOf('team-training') > -1 || path.indexOf('catalogue') > -1 || path === '/' || path.indexOf('index') > -1){
+  pagePopup = 'popup-b2b';
+} else if(path.indexOf('copilot-for-me') > -1){
+  pagePopup = 'popup-individual';
+}
+
+// Show popup after 12 seconds if not already dismissed this session
+if(pagePopup && !sessionStorage.getItem('popup-dismissed-' + pagePopup)){
+  setTimeout(function(){
+    document.getElementById(pagePopup).classList.add('active');
+  }, 12000);
+}
+
+function closePopup(id){
+  document.getElementById(id).classList.remove('active');
+  sessionStorage.setItem('popup-dismissed-' + id, '1');
+}
+
+// Close on overlay click
+document.querySelectorAll('.popup-overlay').forEach(function(el){
+  el.addEventListener('click', function(e){
+    if(e.target === el) closePopup(el.id);
+  });
+});
+
+// Close on Escape
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    document.querySelectorAll('.popup-overlay.active').forEach(function(el){
+      closePopup(el.id);
+    });
+  }
+});
+
+function submitPopup(type){
+  var nameEl, emailEl, formEl, successEl;
+  if(type === 'b2b'){
+    nameEl = document.getElementById('b2b-name');
+    emailEl = document.getElementById('b2b-email');
+    formEl = document.getElementById('form-b2b');
+    successEl = document.getElementById('success-b2b');
+  } else {
+    nameEl = document.getElementById('ind-name');
+    emailEl = document.getElementById('ind-email');
+    formEl = document.getElementById('form-individual');
+    successEl = document.getElementById('success-individual');
+  }
+  
+  if(!nameEl.value.trim() || !emailEl.value.trim()){
+    nameEl.style.borderColor = 'var(--coral)';
+    emailEl.style.borderColor = 'var(--coral)';
+    return;
+  }
+  
+  // In production: POST to your email service (Mailchimp, ConvertKit, etc.)
+  // For now, show success state and log to console
+  console.log('Popup submission:', {
+    type: type,
+    name: nameEl.value,
+    email: emailEl.value
+  });
+  
+  formEl.style.display = 'none';
+  successEl.style.display = 'block';
+  sessionStorage.setItem('popup-dismissed-popup-' + type, '1');
+}
+</script>
+
+</body>
+</html>

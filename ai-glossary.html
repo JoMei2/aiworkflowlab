@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Explained Simply - The Plain English Glossary | AI Workflow Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#1A9E8F;--teal2:#0D7A6E;--turq:#3DD6C4;--turq-lt:#E0FAF7;--mustard:#F5C842;--must-lt:#FFFAE6;--must-dk:#8a6c00;--coral:#FF7858;--coral-dk:#C84535;--coral-lt:#FFF0EC;--dark:#1C2B2A;--mid:#4A6360;--muted:#7A9490;--light:#F8FEFE;--border:#D4EDEA;--white:#FFFFFF}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--dark);background:var(--light);font-size:16px;line-height:1.65}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;line-height:1.15}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--border);padding:0 6%;display:flex;align-items:center;justify-content:space-between;height:66px;gap:1rem}
+.nav-logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.15rem;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:var(--mustard);display:inline-block}
+.nav-search{flex:1;max-width:360px;position:relative}
+.nav-search input{width:100%;padding:.5rem 1rem .5rem 2.4rem;border:1.5px solid var(--border);border-radius:50px;font-size:.88rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;background:var(--light);color:var(--dark)}
+.nav-search input:focus{border-color:var(--teal);background:var(--white)}
+.nav-search-icon{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);font-size:.9rem;color:var(--muted);pointer-events:none}
+.nav-back{font-size:.85rem;color:var(--mid);text-decoration:none;font-weight:500;white-space:nowrap;transition:color .2s;flex-shrink:0}
+.nav-back:hover{color:var(--teal)}
+
+/* HERO */
+.hero{background:var(--white);padding:56px 6% 48px;border-bottom:1.5px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(29,158,143,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(29,158,143,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;max-width:1100px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--turq-lt);border:1.5px solid var(--turq);color:var(--teal2);font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.4rem 1rem;border-radius:50px;margin-bottom:1.2rem}
+.hero h1{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:var(--dark);margin-bottom:.6rem}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{color:var(--mid);font-size:1rem;line-height:1.75;max-width:560px;margin-bottom:1.2rem}
+.hero-pills{display:flex;gap:.6rem;flex-wrap:wrap}
+.pill{background:var(--must-lt);border:1.5px solid var(--mustard);color:var(--must-dk);font-size:.75rem;font-weight:700;padding:.3rem .8rem;border-radius:50px}
+.hero-download{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:1.4rem;text-align:center;min-width:200px}
+.hero-download p{font-size:.78rem;color:var(--muted);margin-bottom:.7rem;line-height:1.4}
+.btn-dl{display:inline-block;background:var(--teal);color:white;text-decoration:none;padding:.7rem 1.4rem;border-radius:50px;font-weight:700;font-size:.85rem;font-family:'Bricolage Grotesque',sans-serif;transition:background .2s;box-shadow:0 3px 0 var(--teal2)}
+.btn-dl:hover{background:var(--teal2)}
+
+/* ALPHABET NAV */
+.alpha-nav{background:var(--white);border-bottom:1.5px solid var(--border);padding:12px 6%;display:flex;gap:.3rem;flex-wrap:wrap;position:sticky;top:66px;z-index:90}
+.alpha-btn{width:32px;height:32px;border-radius:8px;border:none;background:transparent;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.85rem;color:var(--mid);transition:all .2s;display:flex;align-items:center;justify-content:center}
+.alpha-btn:hover{background:var(--turq-lt);color:var(--teal)}
+.alpha-btn.has-terms{color:var(--teal)}
+.alpha-btn.active{background:var(--teal);color:white}
+.alpha-btn.disabled{color:var(--border);cursor:default}
+
+/* MAIN LAYOUT */
+.main{display:grid;grid-template-columns:220px 1fr;gap:2rem;max-width:1100px;margin:0 auto;padding:40px 6% 80px;align-items:start}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:120px}
+.sidebar h4{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--coral);margin-bottom:.8rem}
+.sidebar-links{display:flex;flex-direction:column;gap:.2rem}
+.sidebar-link{text-decoration:none;color:var(--mid);font-size:.88rem;padding:.35rem .7rem;border-radius:8px;display:flex;align-items:center;gap:.5rem;transition:all .2s;font-weight:500}
+.sidebar-link:hover{background:var(--turq-lt);color:var(--teal)}
+.sidebar-link.active{background:var(--turq-lt);color:var(--teal);font-weight:600}
+.sidebar-letter{width:24px;height:24px;border-radius:6px;background:var(--teal);color:white;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+.sidebar-divider{height:1.5px;background:var(--border);margin:1rem 0}
+.sidebar-cta{background:var(--coral-lt);border:1.5px solid var(--coral);border-radius:12px;padding:1rem;margin-top:1.2rem}
+.sidebar-cta p{font-size:.82rem;color:var(--dark);line-height:1.5;margin-bottom:.7rem}
+.btn-sm-coral{display:inline-block;background:var(--coral);color:white;text-decoration:none;padding:.55rem 1.1rem;border-radius:50px;font-weight:700;font-size:.8rem;font-family:'Bricolage Grotesque',sans-serif;transition:background .2s}
+.btn-sm-coral:hover{background:var(--coral-dk)}
+
+/* GLOSSARY CONTENT */
+.glossary-content{}
+
+/* SEARCH RESULTS */
+.search-results{display:none}
+.search-results-header{margin-bottom:1.5rem}
+.search-results-header h2{font-size:1.2rem;font-weight:800;color:var(--dark)}
+.search-results-header p{font-size:.88rem;color:var(--muted);margin-top:.3rem}
+.no-results{text-align:center;padding:3rem;color:var(--muted)}
+.no-results .no-icon{font-size:2.5rem;margin-bottom:.8rem}
+.no-results p{font-size:.95rem}
+
+/* LETTER SECTION */
+.letter-section{margin-bottom:2.5rem}
+.letter-header{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:2px solid var(--turq-lt)}
+.letter-badge{width:44px;height:44px;border-radius:12px;background:var(--teal);color:white;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-size:1.4rem;font-weight:800;flex-shrink:0}
+.letter-count{font-size:.78rem;color:var(--muted);font-weight:500}
+
+/* TERM CARDS */
+.term-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:1.4rem;margin-bottom:.8rem;transition:border-color .2s,box-shadow .2s;position:relative;overflow:hidden}
+.term-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--teal);opacity:0;transition:opacity .2s}
+.term-card:hover{border-color:var(--teal);box-shadow:0 4px 16px rgba(29,158,143,.08)}
+.term-card:hover::before{opacity:1}
+.term-name{font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:800;color:var(--dark);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.term-tag{font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.2rem .6rem;border-radius:50px;flex-shrink:0}
+.tag-copilot{background:var(--turq-lt);color:var(--teal2)}
+.tag-governance{background:var(--coral-lt);color:var(--coral-dk)}
+.tag-technical{background:var(--must-lt);color:var(--must-dk)}
+.tag-fundamental{background:var(--light);color:var(--mid);border:1px solid var(--border)}
+.term-def{font-size:.9rem;color:var(--mid);line-height:1.7}
+.term-def mark{background:rgba(245,200,66,.35);border-radius:3px;padding:0 2px}
+
+/* HIGHLIGHT for search */
+.highlight{background:rgba(245,200,66,.4);border-radius:3px;padding:0 2px}
+
+/* EMAIL CAPTURE BAND */
+.email-band{background:var(--teal);border-radius:20px;padding:2rem;margin:2rem 0;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center}
+.email-band h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;color:white;margin-bottom:.3rem}
+.email-band p{font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.5}
+.email-form{display:flex;gap:.6rem;flex-shrink:0}
+.email-form input{padding:.7rem 1rem;border:none;border-radius:50px;font-size:.88rem;font-family:'Inter',sans-serif;outline:none;min-width:200px;color:var(--dark)}
+.email-form button{background:var(--mustard);color:var(--dark);border:none;padding:.7rem 1.4rem;border-radius:50px;font-weight:700;font-size:.88rem;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;white-space:nowrap;transition:background .2s}
+.email-form button:hover{background:#e0b430}
+.email-success{color:var(--mustard);font-weight:700;font-size:.9rem;display:none;padding:.7rem 0}
+
+/* BACK TO TOP */
+.back-top{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;border-radius:50%;background:var(--teal);color:white;border:none;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(29,158,143,.3);opacity:0;transition:opacity .3s,transform .2s;z-index:99}
+.back-top.visible{opacity:1}
+.back-top:hover{transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:var(--dark);padding:32px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-top:2px solid var(--teal)}
+.footer-brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;color:white;display:flex;align-items:center;gap:6px}
+.footer-fdot{width:8px;height:8px;border-radius:50%;background:var(--mustard)}
+footer p{color:rgba(255,255,255,.3);font-size:.8rem}
+footer a{color:var(--turq);font-size:.8rem;text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--mustard)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .main{grid-template-columns:1fr}
+  .sidebar{position:static}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-download{display:none}
+  .email-band{grid-template-columns:1fr}
+  .email-form{flex-wrap:wrap}
+  .email-form input{min-width:160px;flex:1}
+}
+@media(max-width:600px){
+  .alpha-nav{padding:10px 4%}
+  .alpha-btn{width:28px;height:28px;font-size:.78rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://www.theaiworkflowlab.com/index.html" class="nav-logo"><span class="nav-dot"></span> AI Workflow Lab</a>
+  <div class="nav-search">
+    <span class="nav-search-icon">🔍</span>
+    <input type="text" id="search-input" placeholder="Search the glossary..." oninput="handleSearch(this.value)">
+  </div>
+  <a href="https://www.theaiworkflowlab.com/team-training.html" class="nav-back">← Team Training</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-badge">✦ Free Resource - No Sign-Up Required</span>
+      <h1>AI Explained <em>Simply</em></h1>
+      <p>40 essential AI and Microsoft Copilot terms explained in plain English. Built for non-technical professionals who want to understand what everyone is talking about - without the jargon.</p>
+      <div class="hero-pills">
+        <span class="pill">40 terms</span>
+        <span class="pill">Plain English</span>
+        <span class="pill">Copilot focused</span>
+        <span class="pill">Governance and safety included</span>
+      </div>
+    </div>
+    <div class="hero-download">
+      <p>Want a PDF version to<br>keep and share with your team?</p>
+      <a href="AIWorkflowLab_AI_Glossary.pdf" class="btn-dl" download>Download PDF ↓</a>
+    </div>
+  </div>
+</div>
+
+<!-- ALPHABET NAV -->
+<div class="alpha-nav" id="alpha-nav"></div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <h4>Jump to letter</h4>
+    <div class="sidebar-links" id="sidebar-links"></div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-cta">
+      <p>Want to put these terms into practice with your team?</p>
+      <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-sm-coral" target="_blank" rel="noopener">Book a free call</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div>
+    <!-- SEARCH RESULTS (shown when searching) -->
+    <div class="search-results" id="search-results">
+      <div class="search-results-header">
+        <h2 id="search-heading">Results</h2>
+        <p id="search-subheading"></p>
+      </div>
+      <div id="search-results-list"></div>
+    </div>
+
+    <!-- GLOSSARY (shown normally) -->
+    <div class="glossary-content" id="glossary-content"></div>
+
+    <!-- EMAIL CAPTURE BAND -->
+    <div class="email-band" id="email-band">
+      <div>
+        <h3>Get these 40 terms as a PDF</h3>
+        <p>Download a clean, shareable version to keep on your desk or forward to your team - plus occasional Copilot tips from us.</p>
+      </div>
+      <div>
+        <div class="email-form" id="email-form-wrap">
+          <input type="email" id="band-email" placeholder="Your email address">
+          <button onclick="submitEmail()">Send me the PDF</button>
+        </div>
+        <div class="email-success" id="email-success">✓ Check your inbox - PDF on its way!</div>
+        <p style="font-size:.72rem;color:rgba(255,255,255,.5);margin-top:.5rem">No spam. Unsubscribe any time. <a href="https://www.theaiworkflowlab.com/privacy.html" style="color:rgba(255,255,255,.5)">Privacy policy</a></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<button class="back-top" id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand"><span class="footer-dot"></span> AI Workflow Lab</div>
+      <p class="footer-tagline">Practical Microsoft Copilot training for teams who want results - not just a licence. Simple, human, and built around the work you actually do.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Training</h4>
+      <ul>
+        <li><a href="https://www.theaiworkflowlab.com/team-training.html">Team Training</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/copilot-for-me.html">Copilot for Me</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/catalogue.html">Our Catalogue</a></li>
+        <li><a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" target="_blank" rel="noopener">Book a Consultation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Free Resources</h4>
+      <ul>
+        <li><a href="https://www.theaiworkflowlab.com/ai-glossary.html">AI Glossary</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/ai-readiness-assessment.html">AI Readiness Assessment</a></li>
+        <li><a href="AIWorkflowLab_AI_Glossary.pdf" download>Download Glossary PDF</a></li>
+        <li><a href="AIWorkflowLab_Training_Catalogue_2026.pdf" download>Download Catalogue</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="https://www.theaiworkflowlab.com/privacy.html">Privacy Policy</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/terms.html">Terms and Conditions</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/cookies.html">Cookie Policy</a></li>
+        <li><a href="https://www.theaiworkflowlab.com/contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <ul>
+        <li><a href="mailto:hello@theaiworkflowlab.com">hello@theaiworkflowlab.com</a></li>
+        <li><a href="https://www.theaiworkflowlab.com">www.theaiworkflowlab.com</a></li>
+        <li><a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" target="_blank" rel="noopener">Book a free call</a></li>
+        <li><a href="https://www.youtube.com/channel/UCLHVuxj1HC4qE4ZhM_4ApBA" target="_blank" rel="noopener">YouTube channel</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 AI Workflow Lab. Microsoft Copilot Training for Teams.</p>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
+      <a href="https://www.theaiworkflowlab.com/privacy.html">Privacy Policy</a>
+      <a href="https://www.theaiworkflowlab.com/terms.html">Terms</a>
+      <a href="https://www.theaiworkflowlab.com/cookies.html">Cookies</a>
+      <a href="mailto:hello@theaiworkflowlab.com">hello@theaiworkflowlab.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── GLOSSARY DATA ─────────────────────────────────────────────────
+var TERMS = [
+  {term:"AI (Artificial Intelligence)",def:"Technology that enables computers to perform tasks that normally require human intelligence - like understanding language, recognising patterns, and making decisions.",tags:["fundamental"]},
+  {term:"AI Agent",def:"A Copilot feature that automates a multi-step task on your behalf. You give it a goal and it works through the steps independently - for example checking your emails, summarising key actions, and drafting replies.",tags:["copilot"]},
+  {term:"Algorithm",def:"A set of rules or instructions a computer follows to solve a problem or complete a task. Think of it as a very precise recipe.",tags:["fundamental"]},
+  {term:"Chatbot",def:"A computer programme that can hold a text-based conversation. Basic chatbots follow scripts. AI chatbots like Copilot Chat understand natural language and can respond to almost anything you type.",tags:["fundamental"]},
+  {term:"Context Window",def:"The amount of text a model can read and consider at one time. A larger context window means Copilot can work with longer documents and remember more of your conversation.",tags:["technical"]},
+  {term:"Copilot",def:"Microsoft's AI assistant, built into Microsoft 365. It can draft emails, summarise meetings, create presentations, analyse data, and much more - all from within the tools you already use.",tags:["copilot"]},
+  {term:"Copilot Chat",def:"The conversational interface in Microsoft Copilot. You type a request in plain English and Copilot responds. Available free or as part of a Microsoft 365 subscription.",tags:["copilot"]},
+  {term:"Data",def:"Information in digital form. When people talk about AI and data, they usually mean the text, numbers, or files that an AI model has been trained on or is being asked to work with.",tags:["fundamental"]},
+  {term:"Deep Learning",def:"A type of machine learning that uses layers of mathematical processes to identify patterns. It is what powers most modern AI tools including the language models behind Copilot.",tags:["technical"]},
+  {term:"Embedding",def:"A way of converting text or other data into numbers so an AI can process it. You do not need to understand how this works - it happens automatically behind the scenes.",tags:["technical"]},
+  {term:"EU AI Act",def:"European legislation that regulates how AI systems can be used, particularly in high-risk settings. Article 4 requires all staff who use AI to have adequate AI literacy training - relevant if your organisation has EU customers or operations.",tags:["governance"]},
+  {term:"Generative AI",def:"AI that creates new content - text, images, audio, code - rather than just analysing existing content. Copilot is a generative AI tool.",tags:["fundamental"]},
+  {term:"GPT",def:"Short for Generative Pre-trained Transformer. The type of AI model that powers many modern language tools. Microsoft Copilot is built on GPT technology developed by OpenAI.",tags:["technical"]},
+  {term:"Hallucination",def:"When an AI produces something that sounds confident and plausible but is factually wrong. Always check important facts from AI output against a reliable source. This is one of the most important things to understand about using AI responsibly.",tags:["governance"]},
+  {term:"Human in the Loop",def:"The principle that a human should review and approve AI outputs before they are acted on, especially in important or regulated contexts. A key part of responsible AI use.",tags:["governance"]},
+  {term:"Information Governance",def:"The rules and processes an organisation uses to manage data responsibly. In the NHS this includes strict guidelines about what patient data can and cannot be shared with AI tools.",tags:["governance"]},
+  {term:"Iteration",def:"Refining an AI output by making repeated small improvements. If Copilot's first response is not quite right, you can follow up with more specific instructions to get closer to what you need.",tags:["copilot"]},
+  {term:"Large Language Model (LLM)",def:"The type of AI that powers tools like Copilot. Trained on enormous amounts of text, it can understand and generate human language. It does not know things the way a human does - it predicts the most likely next word based on patterns.",tags:["technical"]},
+  {term:"Machine Learning",def:"A way of teaching computers by showing them many examples rather than writing explicit rules. The computer learns patterns from the data and applies them to new situations.",tags:["fundamental"]},
+  {term:"Microsoft 365 Copilot",def:"The paid version of Copilot that integrates directly with your Microsoft 365 apps - Word, Outlook, Teams, Excel, and PowerPoint. Requires a paid licence on top of your Microsoft 365 subscription.",tags:["copilot"]},
+  {term:"Model",def:"The core AI system that processes your input and generates a response. Different models have different capabilities, sizes, and costs. Microsoft uses several models within Copilot depending on the task.",tags:["technical"]},
+  {term:"Natural Language Processing (NLP)",def:"The area of AI that deals with understanding and generating human language. It is what allows you to type a question in plain English and get a useful answer.",tags:["technical"]},
+  {term:"Notebook",def:"A Copilot feature that lets you feed it a large document or set of documents and then ask questions about them. Useful for summarising long reports, policies, or meeting archives.",tags:["copilot"]},
+  {term:"One-Shot Prompting",def:"Writing a single well-structured prompt that gives Copilot all the context it needs to produce a good result first time. More efficient than sending multiple corrections - and uses less compute energy.",tags:["copilot"]},
+  {term:"Output",def:"What Copilot produces in response to your prompt. Could be text, a table, a summary, a draft email, a list - depending on what you asked for.",tags:["copilot"]},
+  {term:"Parameters",def:"The internal settings of an AI model that determine how it behaves. You do not set these directly - they are fixed during training. Larger models have more parameters and are generally more capable but use more compute.",tags:["technical"]},
+  {term:"Prompt",def:"The instruction or question you give to Copilot. The quality of your prompt directly determines the quality of the response. A vague prompt gets a vague answer. A clear specific prompt gets a useful one.",tags:["copilot"]},
+  {term:"Prompt Engineering",def:"The skill of writing effective prompts to get the best possible output from an AI. Not technical - it is about being clear, specific, and giving the AI the right context.",tags:["copilot"]},
+  {term:"RCICO Framework",def:"A prompting framework used in AI Workflow Lab training. Role, Context, Instruction, Constraints, Output. Structuring your prompt around these five elements consistently produces better results.",tags:["copilot"]},
+  {term:"Responsible AI",def:"Using AI in a way that is fair, transparent, accountable, and safe. This includes checking outputs, protecting personal data, and knowing when not to use AI.",tags:["governance"]},
+  {term:"Summarisation",def:"One of the most useful things Copilot can do. Feed it a long document, email thread, or meeting transcript and ask it to summarise the key points, actions, or decisions.",tags:["copilot"]},
+  {term:"System Prompt",def:"Hidden instructions given to an AI before the conversation starts, usually by the organisation deploying it. These set the tone, constraints, and persona of the AI.",tags:["technical"]},
+  {term:"Token",def:"The unit an AI model uses to process text. Roughly four characters or three quarters of a word. Models have token limits for both input and output, which is why very long prompts sometimes need to be broken into sections.",tags:["technical"]},
+  {term:"Training Data",def:"The text, images, or other content an AI model learned from during its development. It shapes what the model knows and how it responds. It does not include your conversations with Copilot unless you have specifically opted into data sharing.",tags:["fundamental"]},
+  {term:"UK GDPR",def:"The UK version of the General Data Protection Regulation. Governs how personal data must be collected, stored, and used. Relevant when using AI tools with any data that relates to identifiable individuals.",tags:["governance"]},
+  {term:"Vector Search",def:"A technique that allows AI to find semantically similar content - not just exact keyword matches. This is what allows Copilot Notebooks to find relevant passages even if you do not use the exact words from the document.",tags:["technical"]},
+  {term:"Workflow Automation",def:"Using Copilot Agents to automate a repeating sequence of tasks. For example: every time a new enquiry email arrives, Copilot reads it, categorises it, drafts a response, and flags it for review.",tags:["copilot"]},
+  {term:"Zero-Shot Prompting",def:"Asking an AI to do something without giving it any examples. Most everyday Copilot use is zero-shot. Compare with few-shot prompting, where you give examples to help the model understand the format you want.",tags:["copilot"]},
+];
+
+var TAG_CONFIG = {
+  copilot:    {label:"Copilot",    cls:"tag-copilot"},
+  governance: {label:"Governance", cls:"tag-governance"},
+  technical:  {label:"Technical",  cls:"tag-technical"},
+  fundamental:{label:"Fundamental",cls:"tag-fundamental"},
+};
+
+// ── GROUP BY LETTER ───────────────────────────────────────────────
+function groupByLetter(terms) {
+  var grouped = {};
+  terms.forEach(function(t) {
+    var l = t.term[0].toUpperCase();
+    if(!grouped[l]) grouped[l] = [];
+    grouped[l].push(t);
+  });
+  return grouped;
+}
+
+// ── RENDER TERM CARD ──────────────────────────────────────────────
+function renderTermCard(t, highlight) {
+  var tagsHtml = t.tags.map(function(tag) {
+    var cfg = TAG_CONFIG[tag] || {label:tag, cls:"tag-fundamental"};
+    return '<span class="term-tag ' + cfg.cls + '">' + cfg.label + '</span>';
+  }).join(' ');
+
+  var name = t.term;
+  var def  = t.def;
+  if(highlight && highlight.length > 1) {
+    var re = new RegExp('(' + escapeReg(highlight) + ')', 'gi');
+    name = name.replace(re, '<span class="highlight">$1</span>');
+    def  = def.replace(re,  '<span class="highlight">$1</span>');
+  }
+  return '<div class="term-card" id="term-' + slugify(t.term) + '">' +
+    '<div class="term-name">' + name + tagsHtml + '</div>' +
+    '<div class="term-def">' + def + '</div>' +
+  '</div>';
+}
+
+function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-'); }
+function escapeReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+// ── BUILD GLOSSARY ────────────────────────────────────────────────
+function buildGlossary() {
+  var grouped = groupByLetter(TERMS);
+  var letters = Object.keys(grouped).sort();
+  var allLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+  // Alpha nav
+  var alphaNav = document.getElementById('alpha-nav');
+  allLetters.forEach(function(l) {
+    var btn = document.createElement('button');
+    btn.className = 'alpha-btn' + (grouped[l] ? ' has-terms' : ' disabled');
+    btn.textContent = l;
+    btn.id = 'alpha-' + l;
+    if(grouped[l]) {
+      btn.onclick = function() {
+        var el = document.getElementById('letter-' + l);
+        if(el) { el.scrollIntoView({behavior:'smooth', block:'start'}); }
+        document.querySelectorAll('.alpha-btn').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+      };
+    }
+    alphaNav.appendChild(btn);
+  });
+
+  // Sidebar
+  var sidebarLinks = document.getElementById('sidebar-links');
+  letters.forEach(function(l) {
+    var a = document.createElement('a');
+    a.href = '#letter-' + l;
+    a.className = 'sidebar-link';
+    a.innerHTML = '<span class="sidebar-letter">' + l + '</span>' + l + ' (' + grouped[l].length + ')';
+    a.onclick = function(e) {
+      e.preventDefault();
+      var el = document.getElementById('letter-' + l);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      document.querySelectorAll('.sidebar-link').forEach(function(x){ x.classList.remove('active'); });
+      a.classList.add('active');
+    };
+    sidebarLinks.appendChild(a);
+  });
+
+  // Glossary content
+  var content = document.getElementById('glossary-content');
+  var html = '';
+  letters.forEach(function(l) {
+    var terms = grouped[l];
+    html += '<div class="letter-section" id="letter-' + l + '">';
+    html += '<div class="letter-header">';
+    html += '<div class="letter-badge">' + l + '</div>';
+    html += '<div><h2 style="font-size:1.2rem;font-weight:800;color:var(--dark)">' + l + '</h2>';
+    html += '<span class="letter-count">' + terms.length + ' term' + (terms.length>1?'s':'') + '</span></div>';
+    html += '</div>';
+    terms.forEach(function(t) { html += renderTermCard(t, null); });
+    html += '</div>';
+
+    // Insert email band after G
+    if(l === 'G') {
+      html += '<div id="email-band-mid" style="margin-bottom:2.5rem">' +
+        '<div class="email-band" style="margin:0">' +
+        '<div><h3>Enjoying the glossary?</h3><p>Get the full PDF version plus occasional plain-English AI tips from the AI Workflow Lab team.</p></div>' +
+        '<div><div class="email-form" id="mid-form"><input type="email" id="mid-email" placeholder="Your email address"><button onclick="submitEmailMid()">Get the PDF</button></div>' +
+        '<div class="email-success" id="mid-success">✓ PDF on its way!</div>' +
+        '<p style="font-size:.72rem;color:rgba(255,255,255,.5);margin-top:.5rem">No spam. <a href="https://www.theaiworkflowlab.com/privacy.html" style="color:rgba(255,255,255,.5)">Privacy policy</a></p></div>' +
+        '</div></div>';
+    }
+  });
+  content.innerHTML = html;
+}
+
+// ── SEARCH ────────────────────────────────────────────────────────
+var searchTimeout;
+function handleSearch(val) {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(function() { doSearch(val.trim()); }, 200);
+}
+
+function doSearch(q) {
+  var gc  = document.getElementById('glossary-content');
+  var sr  = document.getElementById('search-results');
+  var srl = document.getElementById('search-results-list');
+  var sh  = document.getElementById('search-heading');
+  var ssub= document.getElementById('search-subheading');
+  var eb  = document.getElementById('email-band');
+  var ebs = document.getElementById('email-band-mid');
+
+  if(!q || q.length < 2) {
+    gc.style.display = '';
+    sr.style.display = 'none';
+    if(eb) eb.style.display = '';
+    if(ebs) ebs.style.display = '';
+    return;
+  }
+
+  var results = TERMS.filter(function(t) {
+    return t.term.toLowerCase().includes(q.toLowerCase()) ||
+           t.def.toLowerCase().includes(q.toLowerCase());
+  });
+
+  gc.style.display = 'none';
+  if(eb) eb.style.display = 'none';
+  if(ebs) ebs.style.display = 'none';
+  sr.style.display = 'block';
+
+  sh.textContent = results.length + ' result' + (results.length !== 1 ? 's' : '') + ' for "' + q + '"';
+  ssub.textContent = results.length === 0 ? 'Try a different search term.' : 'Showing all matching terms.';
+
+  if(results.length === 0) {
+    srl.innerHTML = '<div class="no-results"><div class="no-icon">🔍</div><p>No terms found for "' + q + '".<br>Try searching for something like "prompt", "agent", or "governance".</p></div>';
+  } else {
+    srl.innerHTML = results.map(function(t){ return renderTermCard(t, q); }).join('');
+  }
+}
+
+// ── EMAIL CAPTURE ─────────────────────────────────────────────────
+function submitEmail() {
+  var email = document.getElementById('band-email').value.trim();
+  if(!email || !/\S+@\S+\.\S+/.test(email)) { alert('Please enter a valid email address.'); return; }
+  console.log('Glossary email capture:', email);
+  document.getElementById('email-form-wrap').style.display = 'none';
+  document.getElementById('email-success').style.display = 'block';
+}
+function submitEmailMid() {
+  var email = document.getElementById('mid-email').value.trim();
+  if(!email || !/\S+@\S+\.\S+/.test(email)) { alert('Please enter a valid email address.'); return; }
+  console.log('Glossary mid-page email capture:', email);
+  document.getElementById('mid-form').style.display = 'none';
+  document.getElementById('mid-success').style.display = 'block';
+}
+
+// ── SCROLL BEHAVIOUR ──────────────────────────────────────────────
+window.addEventListener('scroll', function() {
+  // Back to top button
+  var btn = document.getElementById('back-top');
+  if(window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+
+  // Highlight active sidebar link and alpha button
+  var sections = document.querySelectorAll('.letter-section');
+  var active = null;
+  sections.forEach(function(s) {
+    if(s.getBoundingClientRect().top <= 160) active = s.id.replace('letter-','');
+  });
+  if(active) {
+    document.querySelectorAll('.sidebar-link').forEach(function(a){
+      a.classList.toggle('active', a.innerHTML.includes('>' + active + '<'));
+    });
+    document.querySelectorAll('.alpha-btn').forEach(function(b){
+      b.classList.toggle('active', b.textContent === active);
+    });
+  }
+});
+
+// ── INIT ──────────────────────────────────────────────────────────
+buildGlossary();
+</script>
+</body>
+</html>
