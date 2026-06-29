@@ -196,7 +196,7 @@ section{padding:80px 6%}
     <h1>Get genuinely good at Copilot <em>on your own terms</em></h1>
     <p>Not waiting for your employer to sort it? Copilot for Me is your personal, self-paced programme - built for individuals who want to get ahead with Microsoft Copilot without needing a team training day to do it.</p>
     <div style="display:flex;gap:.9rem;flex-wrap:wrap">
-      <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-coral" target="_blank" rel="noopener">Join the Early Access List</a>
+      <a href="#early-access-form" class="btn-coral">Join the Early Access List</a>
     </div>
   </div>
   <div class="course-visual" style="position:relative;z-index:1">
@@ -263,7 +263,7 @@ section{padding:80px 6%}
   <div class="inner">
     <h2>Launching soon - be first in line</h2>
     <p>Copilot for Me is in development. Join the early access list and get the founding member price when we launch.</p>
-    <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-white" target="_blank" rel="noopener">Join the Early Access List</a>
+    <a href="#early-access-form" class="btn-white">Join the Early Access List</a>
   </div>
 </section>
 
@@ -285,26 +285,63 @@ section{padding:80px 6%}
 
 <section class="enroll">
   <div>
-    <h2>Start your <em>Copilot journey</em></h2>
-    <p>Copilot for Me launches soon. This is a programme you buy for yourself - no employer approval needed, no waiting for a group training day to be organised. Just you, learning at your own pace.</p>
-    <p>Not sure if this course is right for you? Book a free 30-minute call and we will give you an honest answer.</p>
-    <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-yellow" target="_blank" rel="noopener">Book a Free Chat First</a>
+    <h2>Be first in line <em>when we launch</em></h2>
+    <p>Copilot for Me is currently in development. Join the early access list and you will be the first to hear when it launches - including a founding member price available only to early sign-ups.</p>
+    <p>No commitment, no payment details. Just your name and email so we can let you know when it is ready.</p>
+    <ul class="enroll-list">
+      <li>First access before it opens to the public</li>
+      <li>Founding member pricing - lower than the standard launch price</li>
+      <li>Updates on what is being built and when it launches</li>
+      <li>No spam - one email when it is ready, occasional tips in the meantime</li>
+    </ul>
   </div>
   <div class="enroll-card">
-    <h3>Copilot for Me</h3>
-    <div class="enroll-price">Coming soon</div>
-    <div class="enroll-note">Founding member price available - join the list to hear first</div>
-    <ul class="enroll-list">
-      <li>5 self-paced modules - learn at your speed</li>
-      <li>Practical hands-on exercises after every module</li>
-      <li>AI safety and responsible use throughout</li>
-      <li>Copilot for Me Certificate on completion</li>
-      <li>Learn at your own pace - no deadlines, no pressure</li>
-      <li>Community access</li>
-    </ul>
-    <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-coral" style="width:100%;text-align:center" target="_blank" rel="noopener">Join the Early Access List</a>
+    <h3>Join the Early Access List</h3>
+    <p style="color:rgba(255,255,255,.6);font-size:.85rem;margin-bottom:1.5rem">Takes 30 seconds. We will be in touch when Copilot for Me is ready.</p>
+    <form id="early-access-form" action="https://formspree.io/f/mgojzaqr" method="POST" style="display:flex;flex-direction:column;gap:.8rem">
+      <input type="hidden" name="form-type" value="Copilot for Me - Early Access">
+      <input type="text" name="name" placeholder="Your full name" required
+        style="padding:.8rem 1rem;border:1.5px solid rgba(255,255,255,.15);border-radius:10px;font-size:.93rem;font-family:'Inter',sans-serif;background:rgba(255,255,255,.08);color:#fff;outline:none">
+      <input type="email" name="email" placeholder="Your email address" required
+        style="padding:.8rem 1rem;border:1.5px solid rgba(255,255,255,.15);border-radius:10px;font-size:.93rem;font-family:'Inter',sans-serif;background:rgba(255,255,255,.08);color:#fff;outline:none">
+      <input type="text" name="organisation" placeholder="Your organisation (optional)"
+        style="padding:.8rem 1rem;border:1.5px solid rgba(255,255,255,.15);border-radius:10px;font-size:.93rem;font-family:'Inter',sans-serif;background:rgba(255,255,255,.08);color:#fff;outline:none">
+      <input type="hidden" name="_subject" value="New Copilot for Me Early Access Sign-up">
+      <input type="text" name="_gotcha" style="display:none">
+      <button type="submit"
+        style="background:var(--coral);color:#fff;border:none;padding:.9rem;border-radius:50px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;transition:background .2s;box-shadow:0 4px 0 #c95035">
+        Join the Early Access List
+      </button>
+    </form>
+    <div id="early-access-success" style="display:none;text-align:center;padding:1.5rem 0">
+      <div style="font-size:2rem;margin-bottom:.6rem">🎉</div>
+      <h4 style="font-family:'Bricolage Grotesque',sans-serif;color:#fff;margin-bottom:.4rem">You are on the list!</h4>
+      <p style="color:rgba(255,255,255,.65);font-size:.88rem">We will be in touch when Copilot for Me launches. Check your inbox for a confirmation.</p>
+    </div>
+    <p style="color:rgba(255,255,255,.35);font-size:.75rem;margin-top:1rem;text-align:center">
+      No spam. Unsubscribe any time. 
+      <a href="https://www.theaiworkflowlab.com/privacy.html" style="color:rgba(255,255,255,.35)">Privacy policy</a>
+    </p>
   </div>
 </section>
+<script>
+document.getElementById('early-access-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(function(r) {
+    if(r.ok) {
+      form.style.display = 'none';
+      document.getElementById('early-access-success').style.display = 'block';
+    }
+  }).catch(function() {
+    form.submit(); // fallback
+  });
+});
+</script>
 
 
 <footer>
@@ -541,36 +578,52 @@ document.addEventListener('keydown', function(e){
 });
 
 function submitPopup(type){
-  var nameEl, emailEl, formEl, successEl;
+  var nameEl, emailEl, orgEl, formEl, successEl, formType;
   if(type === 'b2b'){
-    nameEl = document.getElementById('b2b-name');
-    emailEl = document.getElementById('b2b-email');
-    formEl = document.getElementById('form-b2b');
+    nameEl    = document.getElementById('b2b-name');
+    emailEl   = document.getElementById('b2b-email');
+    orgEl     = document.getElementById('b2b-org');
+    formEl    = document.getElementById('form-b2b');
     successEl = document.getElementById('success-b2b');
+    formType  = 'B2B Lead - AI Readiness Assessment Download';
   } else {
-    nameEl = document.getElementById('ind-name');
-    emailEl = document.getElementById('ind-email');
-    formEl = document.getElementById('form-individual');
+    nameEl    = document.getElementById('ind-name');
+    emailEl   = document.getElementById('ind-email');
+    orgEl     = null;
+    formEl    = document.getElementById('form-individual');
     successEl = document.getElementById('success-individual');
+    formType  = 'Individual Lead - 10 Copilot Prompts Download';
   }
-  
+
   if(!nameEl.value.trim() || !emailEl.value.trim()){
     nameEl.style.borderColor = 'var(--coral)';
     emailEl.style.borderColor = 'var(--coral)';
     return;
   }
-  
-  // In production: POST to your email service (Mailchimp, ConvertKit, etc.)
-  // For now, show success state and log to console
-  console.log('Popup submission:', {
-    type: type,
-    name: nameEl.value,
-    email: emailEl.value
+
+  // Build form data
+  var data = new FormData();
+  data.append('form-type', formType);
+  data.append('name', nameEl.value.trim());
+  data.append('email', emailEl.value.trim());
+  if(orgEl && orgEl.value) data.append('organisation', orgEl.value.trim());
+  data.append('_subject', 'New lead: ' + formType);
+
+  // POST to Formspree
+  fetch('https://formspree.io/f/mgojzaqr', {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  }).then(function(r) {
+    formEl.style.display = 'none';
+    successEl.style.display = 'block';
+    sessionStorage.setItem('popup-dismissed-popup-' + type, '1');
+  }).catch(function() {
+    // Show success anyway - don't block the user
+    formEl.style.display = 'none';
+    successEl.style.display = 'block';
+    sessionStorage.setItem('popup-dismissed-popup-' + type, '1');
   });
-  
-  formEl.style.display = 'none';
-  successEl.style.display = 'block';
-  sessionStorage.setItem('popup-dismissed-popup-' + type, '1');
 }
 </script>
 

@@ -835,36 +835,52 @@ document.addEventListener('keydown', function(e){
 });
 
 function submitPopup(type){
-  var nameEl, emailEl, formEl, successEl;
+  var nameEl, emailEl, orgEl, formEl, successEl, formType;
   if(type === 'b2b'){
-    nameEl = document.getElementById('b2b-name');
-    emailEl = document.getElementById('b2b-email');
-    formEl = document.getElementById('form-b2b');
+    nameEl    = document.getElementById('b2b-name');
+    emailEl   = document.getElementById('b2b-email');
+    orgEl     = document.getElementById('b2b-org');
+    formEl    = document.getElementById('form-b2b');
     successEl = document.getElementById('success-b2b');
+    formType  = 'B2B Lead - AI Readiness Assessment Download';
   } else {
-    nameEl = document.getElementById('ind-name');
-    emailEl = document.getElementById('ind-email');
-    formEl = document.getElementById('form-individual');
+    nameEl    = document.getElementById('ind-name');
+    emailEl   = document.getElementById('ind-email');
+    orgEl     = null;
+    formEl    = document.getElementById('form-individual');
     successEl = document.getElementById('success-individual');
+    formType  = 'Individual Lead - 10 Copilot Prompts Download';
   }
-  
+
   if(!nameEl.value.trim() || !emailEl.value.trim()){
     nameEl.style.borderColor = 'var(--coral)';
     emailEl.style.borderColor = 'var(--coral)';
     return;
   }
-  
-  // In production: POST to your email service (Mailchimp, ConvertKit, etc.)
-  // For now, show success state and log to console
-  console.log('Popup submission:', {
-    type: type,
-    name: nameEl.value,
-    email: emailEl.value
+
+  // Build form data
+  var data = new FormData();
+  data.append('form-type', formType);
+  data.append('name', nameEl.value.trim());
+  data.append('email', emailEl.value.trim());
+  if(orgEl && orgEl.value) data.append('organisation', orgEl.value.trim());
+  data.append('_subject', 'New lead: ' + formType);
+
+  // POST to Formspree
+  fetch('https://formspree.io/f/mgojzaqr', {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  }).then(function(r) {
+    formEl.style.display = 'none';
+    successEl.style.display = 'block';
+    sessionStorage.setItem('popup-dismissed-popup-' + type, '1');
+  }).catch(function() {
+    // Show success anyway - don't block the user
+    formEl.style.display = 'none';
+    successEl.style.display = 'block';
+    sessionStorage.setItem('popup-dismissed-popup-' + type, '1');
   });
-  
-  formEl.style.display = 'none';
-  successEl.style.display = 'block';
-  sessionStorage.setItem('popup-dismissed-popup-' + type, '1');
 }
 </script>
 
