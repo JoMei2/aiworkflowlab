@@ -177,7 +177,7 @@ section{padding:80px 6%}
     <h1>12 programmes. <em>One team.</em></h1>
     <p>Download our full training catalogue or browse every programme below. From a focused 2-hour session to a comprehensive 12-session programme - built around the work your team actually does.</p>
     <div style="display:flex;gap:.9rem;flex-wrap:wrap">
-      <a href="AIWorkflowLab_Training_Catalogue_2026.pdf" class="btn-coral" download>Download the Catalogue</a>
+      <a href="#flipbook" class="btn-coral" onclick="document.querySelector('.fp-iframe').scrollIntoView({behavior:'smooth'});return false">Browse Online</a>
       <a href="https://bookings.cloud.microsoft/bookwithme/user/97d7aa2e31c041a28bca992a1c6ee0f6%40theaiworkflowlab.com/meetingtype/SRWQQWrHhEW8UYS-J_QTLA2?anonymous&ismsaljsauthenabled" class="btn-outline" target="_blank" rel="noopener">Book a Consultation</a>
     </div>
     <p style="margin-top:1rem;font-size:.85rem;color:var(--muted)">
@@ -201,6 +201,24 @@ section{padding:80px 6%}
         <div class="cat-item"><div class="cat-num">10</div><p>Copilot for Education Professionals</p></div>
         <div class="cat-item"><div class="cat-num">11</div><p>Copilot for Consultants and Analysts</p></div>
         <div class="cat-item"><div class="cat-num">12</div><p>Copilot for Public Sector Teams</p></div>
+  </div>
+</section>
+
+
+<!-- BROWSE ONLINE -->
+<section style="background:var(--light);padding:60px 6%">
+  <span class="eyebrow">Browse online</span>
+  <h2 class="section-h2">Read the catalogue <em>right here</em></h2>
+  <p class="section-intro">Prefer to browse before downloading? Flip through the full catalogue below. You can also download it as a PDF to share with your team or leadership.</p>
+  <div style="max-width:1100px;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(29,158,143,.12);border:1.5px solid var(--border)">
+    <iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no" class="fp-iframe"
+      src="https://heyzine.com/flip-book/2c42e0cbb7.html"
+      style="border:none;width:100%;height:600px;display:block">
+    </iframe>
+  </div>
+  <div style="margin-top:1.2rem;display:flex;gap:1rem;flex-wrap:wrap">
+    <a href="AIWorkflowLab_Training_Catalogue_2026.pdf" class="btn-teal" download>Download PDF version</a>
+    <a href="https://heyzine.com/flip-book/2c42e0cbb7.html" class="btn-outline" target="_blank" rel="noopener">Open full screen</a>
   </div>
 </section>
 
